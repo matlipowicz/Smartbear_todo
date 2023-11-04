@@ -60,7 +60,7 @@
         "react/no-array-index-key": "warn",
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
-        "arrow-body-style": ["error", "as-needed"],
+        // "arrow-body-style": ["error", "as-needed"],
         "react/self-closing-comp": ["error", { "component": true, "html": true }]
 
         // "no-console": "error"
