@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { BiCheck } from 'react-icons/bi';
+import { TaskObjTypes } from 'src/components/TaskModal/TaskModal';
 
 import Flag from '../../../public/icons/flag.svg?react';
 
@@ -46,7 +47,7 @@ const CATEGORIES: { color: string; name: string }[] = [
     },
 ];
 
-export const TaskItem = ({ task }: any) => {
+export const TaskItem = ({ task }: { task: TaskObjTypes }) => {
     const [selectDropdown, setSelectDropdown] = useState<boolean>(false);
     const [selectedCategory, setSelectedCategory] = useState<string>('transparent');
     const [isChecked, setIsChecked] = useState<boolean>(task.done);
@@ -83,9 +84,9 @@ export const TaskItem = ({ task }: any) => {
         <li key={task.id} className="mb-4">
             <div className={`flex w-full items-center min-h-taskHeight bg-gray-200 ${isChecked ? 'brightness-50' : ''} rounded-md relative`}>
                 <div className="flex items-center gap-4">
-                    <label htmlFor={task.id} className="ml-2 text-sm font-medium text-gray-100 dark:text-gray-300 relative cursor-pointer mr">
+                    <label htmlFor={String(task.id)} className="ml-2 text-sm font-medium text-gray-100 dark:text-gray-300 relative cursor-pointer mr">
                         <input
-                            id={task.id}
+                            id={String(task.id)}
                             name={task.task_title}
                             type="checkbox"
                             checked={isChecked}

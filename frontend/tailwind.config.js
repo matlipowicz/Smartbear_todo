@@ -1,5 +1,10 @@
 export default {
-    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+    content: [
+        './index.html',
+        './src/**/*.{js,ts,jsx,tsx}',
+        'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+        './node_modules/tailwind-datepicker-react/dist/**/*.js',
+    ],
     theme: {
         extend: {
             colors: {
@@ -41,8 +46,10 @@ export default {
             },
             minHeight: {
                 taskHeight: '6rem',
+                taskModalHeight: '21.25rem',
             },
         },
     },
+    // plugins: [require('flowbite/plugin')],
     plugins: [],
 };

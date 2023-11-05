@@ -9,3 +9,27 @@
         @apply text-base;
     }
 }
+
+.react-calendar {
+    @apply bg-gray-200;
+    @apply p-4;
+    @apply border-2;
+    @apply border-gray-300;
+    @apply text-white;
+}
+
+.react-calendar__navigation {
+    @apply border-b;
+    @apply border-white;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus,
+.react-calendar__tile:enabled:hover {
+    @apply hover:bg-gray-300;
+    @apply focus:bg-gray-300;
+}
+
+.react-calendar__tile:enabled:focus {
+    @apply focus:bg-bright-purple-200;
+}
