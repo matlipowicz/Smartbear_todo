@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { TaskModal } from './components/TaskModal/TaskModal';
+import { MenuProvider } from './context/MenuContext/MenuContext';
 import { ModalProvider } from './context/ModalContext/ModalContext';
 import { TasksProvider } from './context/ModalContext/TasksContext';
 import { MainLayout } from './layout/MainLayout';
@@ -12,17 +13,19 @@ import Profile from './pages/Profile/Profile';
 function App() {
     return (
         <TasksProvider>
-            <ModalProvider>
-                <MainLayout>
-                    <TaskModal />
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/calendar" element={<Calendar />} />
-                        <Route path="/all-tasks" element={<AllTasks />} />
-                        <Route path="/profile" element={<Profile />} />
-                    </Routes>
-                </MainLayout>
-            </ModalProvider>
+            <MenuProvider>
+                <ModalProvider>
+                    <MainLayout>
+                        <TaskModal />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/calendar" element={<Calendar />} />
+                            <Route path="/all-tasks" element={<AllTasks />} />
+                            <Route path="/profile" element={<Profile />} />
+                        </Routes>
+                    </MainLayout>
+                </ModalProvider>
+            </MenuProvider>
         </TasksProvider>
     );
 }

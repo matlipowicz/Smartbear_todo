@@ -1,8 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import { TaskObjTypes } from './TaskModal';
 
-export const TaskTitle = ({ register }: { register: UseFormRegister<TaskObjTypes> }) => {
+export const TaskTitle = ({ register, errors }: { errors: FieldErrors<TaskObjTypes>; register: UseFormRegister<TaskObjTypes> }) => {
     return (
         <>
             <label htmlFor="task-title" className="text-white">
@@ -14,6 +14,7 @@ export const TaskTitle = ({ register }: { register: UseFormRegister<TaskObjTypes
                 name="task_title"
                 className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-bright-purple-100 focus:border-bright-purple-100 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-white dark:focus:ring-bright-purple-1000 dark:focus:border-bright-purple-100"
             />
+            {errors?.task_title && <p className="text-red-100 text-sm">{errors?.task_title?.message} &uarr;</p>}
 
             <textarea
                 {...register('description')}

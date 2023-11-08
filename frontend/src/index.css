@@ -16,6 +16,7 @@
     @apply border-2;
     @apply border-gray-300;
     @apply text-white;
+    @apply self-center;
 }
 
 .react-calendar__navigation {
@@ -32,4 +33,35 @@
 
 .react-calendar__tile:enabled:focus {
     @apply focus:bg-bright-purple-200;
+}
+
+.react-time-picker {
+    @apply justify-center;
+}
+
+.react-time-picker__wrapper {
+    @apply border-0;
+}
+.react-time-picker__inputGroup {
+    @apply flex;
+    @apply justify-center;
+    @apply items-center;
+    @apply gap-2;
+}
+
+.react-time-picker__inputGroup__input {
+    @apply min-h-timePickerInput;
+    @apply min-w-timePickerInput;
+    @apply bg-gray-300/70;
+    @apply text-center;
+    @apply text-white;
+    @apply text-lg;
+}
+
+.react-time-picker__inputGroup__divider {
+    @apply text-white;
+}
+
+.react-time-picker__inputGroup__input:invalid {
+    @apply bg-bright-purple-100/20;
 }

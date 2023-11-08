@@ -35,7 +35,8 @@ export default {
             },
 
             gridTemplateRows: {
-                'main-rows': 'min-content 1fr 6.25rem',
+                'mobile-main-rows': 'min-content 1fr 6.25rem',
+                'desktop-main-rows': '1fr',
             },
 
             height: {
@@ -47,6 +48,21 @@ export default {
             minHeight: {
                 taskHeight: '6rem',
                 taskModalHeight: '21.25rem',
+                timePickerInput: '4rem',
+            },
+            minWidth: {
+                timePickerInput: '4rem',
+                taskModal: '21.875rem',
+            },
+            maxWidth: {
+                datePickerWidth: '28.75rem',
+                taskModal: '34rem',
+            },
+            fontSize: {
+                clamp: 'clamp(1rem, 5vw, 3rem)',
+            },
+            translate: {
+                translateModalX: '75%',
             },
         },
     },
