@@ -1,5 +1,3 @@
-import { useTasksContext } from 'src/context/ModalContext/TasksContext';
-
 import { TaskObjTypes } from '../TaskModal/TaskModal';
 
 import { TaskItem } from './TaskItem';
@@ -8,17 +6,14 @@ import { TaskItem } from './TaskItem';
 
 //TODO: invisible input with changes
 
-export const TaskTab = () => {
-    const { tasks } = useTasksContext();
-
+export const TaskTab = ({ tasks }: { tasks: TaskObjTypes[] }) => {
     if (!tasks) return null;
-    console.log(tasks);
 
     return (
         <>
-            <ul>
+            <ul className="max-w-4xl flex flex-col m-auto">
                 {tasks.map((task: TaskObjTypes) => (
-                    <TaskItem key={task.id} task={task} />
+                    <TaskItem key={task.id} task={task} id={task.id} />
                 ))}
             </ul>
         </>

@@ -20,10 +20,10 @@ import { TaskTitle } from './TaskTitle';
 export type TaskObjTypes = {
     createdOn?: number;
     description?: string | undefined;
-    done?: boolean | undefined;
+    done: boolean;
     finalDate: string;
     id: number;
-    priority?: number | undefined;
+    priority: number;
     scheduledOn: string;
     task_title: string;
     time: string;

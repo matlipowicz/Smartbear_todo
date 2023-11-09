@@ -1,5 +1,7 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import moment from 'moment';
+import { getTodos } from 'src/api/todos';
+import { postTodo } from 'src/api/todos';
 import { TaskObjTypes } from 'src/components/TaskModal/TaskModal';
 
 type TaskContextTypes = {
@@ -12,6 +14,11 @@ export const TasksContext = createContext<TaskContextTypes | null>(null);
 
 export const TasksProvider = ({ children }: { children: ReactNode }) => {
     const [tasks, setTask] = useState<TaskObjTypes[]>([]);
+
+    useEffect(() => {
+        getTodos().then((data) => setTask(data));
+    }, []);
+
     const submitHandler = (data: TaskObjTypes) => {
         const formatedDate = moment(data.scheduledOn, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
         const formatedTime = moment(data.time, 'HH:mm:ss A');
@@ -21,20 +28,18 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
             s: formatedDate.second(),
         });
         const finalTaskDate = formatedDate.format();
-        setTask((prev: TaskObjTypes[]) => [
-            ...prev,
-            {
-                id: tasks.length + 1,
-                task_title: data.task_title,
-                description: data.description || undefined,
-                createdOn: Date.now() || undefined,
-                done: data.done || undefined,
-                priority: 0 || undefined,
-                scheduledOn: data.scheduledOn,
-                time: data.time,
-                finalDate: finalTaskDate,
-            },
-        ]);
+
+        postTodo({
+            id: tasks.length + 1,
+            task_title: data.task_title,
+            description: data.description || undefined,
+            createdOn: Date.now() || undefined,
+            done: data.done,
+            priority: 0,
+            scheduledOn: data.scheduledOn,
+            time: data.time,
+            finalDate: finalTaskDate,
+        });
     };
 
     return <TasksContext.Provider value={{ tasks, setTask, submitHandler }}>{children}</TasksContext.Provider>;

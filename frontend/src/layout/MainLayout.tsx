@@ -28,8 +28,8 @@ type RouteTypes = {
 const ROUTES: RouteTypes[] = [
     {
         id: 1,
-        path: '/',
-        name: 'Home',
+        path: '/tasks',
+        name: 'Task list',
         icon: <Home className="w-6  h-6 fill-current text-white group-hover:text-bright-purple-100  " />,
     },
     {
@@ -64,7 +64,7 @@ export const MainLayout = ({ children }: ChildrienProps) => {
                     <button className="h-min hidden lg:flex" onClick={() => setOpenMenu(true)}>
                         <RxHamburgerMenu className=" w-10 h-10 cursor-pointer hover:text-bright-purple-100 hover:bg-gray-200/30 focus:text-bright-purple-100 focus:bg-gray-200/30 rounder-md p-1" />
                     </button>
-                    <NavLink to="/" className="h-min">
+                    <NavLink to="/tasks" className="h-min">
                         <img src={logo} alt="logo" className="w-10 h-10  cursor-pointer " />
                     </NavLink>
                     {/* TODO: Profile avatar */}
@@ -76,7 +76,7 @@ export const MainLayout = ({ children }: ChildrienProps) => {
                 <nav className="w-screen bg-gray-200 h-25 self-end px-6 pb-3.5 relative sm:flex lg:hidden">
                     <button
                         onClick={open}
-                        disabled={location.pathname !== '/' ? true : false}
+                        disabled={location.pathname !== '/tasks' ? true : false}
                         className="w-16 h-16  bg-bright-purple-100 rounded-full  absolute  right-1/2 translate-x-1/2 -translate-y-1/2 hover:bg-bright-purple-300 text-3xl lg:fixed lg:bottom-2 lg:right-2"
                     >
                         +
