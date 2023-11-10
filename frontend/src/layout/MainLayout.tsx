@@ -18,14 +18,14 @@ type ChildrienProps = {
     children: React.ReactNode;
 };
 
-type RouteTypes = {
+export type RouteTypes = {
     icon: ReactElement;
     id: number;
     name: string;
     path: string;
 };
 
-const ROUTES: RouteTypes[] = [
+export const ROUTES: RouteTypes[] = [
     {
         id: 1,
         path: '/tasks',
@@ -169,7 +169,7 @@ export function DesktopLayout({
             </div>
             <button
                 onClick={open}
-                disabled={location.pathname !== '/' ? true : false}
+                disabled={location.pathname !== '/tasks' && location.pathname !== '/calendar' ? true : false}
                 className="w-16 h-16  bg-bright-purple-100 rounded-full  right-1/2 translate-x-1/2 -translate-y-1/2 hover:bg-bright-purple-300 text-3xl lg:absolute lg:bottom-5 lg:right-20 "
             >
                 +

@@ -28,7 +28,7 @@ export default {
                 'category-blue-200': '#4181CC',
                 'category-purple-200': '#809CFF',
                 'category-purple-100': '#9741CC',
-                'test-black': '#121212',
+                'black-edit': '#121212',
             },
             fontFamily: {
                 lato: ['Lato', 'sans-serif'],
@@ -53,6 +53,7 @@ export default {
             minWidth: {
                 timePickerInput: '4rem',
                 taskModal: '21.875rem',
+                taskEditParagraph: '6.5625rem',
             },
             maxWidth: {
                 datePickerWidth: '28.75rem',

@@ -2,23 +2,32 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import moment from 'moment';
 import { getTodos } from 'src/api/todos';
 import { postTodo } from 'src/api/todos';
+import { patchTodo } from 'src/api/todos';
 import { TaskObjTypes } from 'src/components/TaskModal/TaskModal';
-
 type TaskContextTypes = {
-    setTask: React.Dispatch<React.SetStateAction<TaskObjTypes[]>>;
+    checked: boolean | undefined;
+    getSingleTask: (id: number) => TaskObjTypes | undefined;
+    handleChecked: () => void;
+    setChecked: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+
     submitHandler: (data: TaskObjTypes) => void;
+    task: TaskObjTypes | null;
     tasks: TaskObjTypes[];
 };
 
 export const TasksContext = createContext<TaskContextTypes | null>(null);
 
 export const TasksProvider = ({ children }: { children: ReactNode }) => {
-    const [tasks, setTask] = useState<TaskObjTypes[]>([]);
+    const [tasks, setTasks] = useState<TaskObjTypes[]>([]);
+    const [checked, setChecked] = useState<boolean | undefined>(false);
 
     useEffect(() => {
-        getTodos().then((data) => setTask(data));
+        getTodos()
+            .then((data) => setTasks(data))
+            .catch((error) => console.log(error));
     }, []);
 
+    //* POST
     const submitHandler = (data: TaskObjTypes) => {
         const formatedDate = moment(data.scheduledOn, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
         const formatedTime = moment(data.time, 'HH:mm:ss A');
@@ -41,8 +50,26 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
             finalDate: finalTaskDate,
         });
     };
+    //* PATCH
+    async function getSingleTask(id: number) {
+        tasks.filter((task) => {
+            if (task.id === id) {
+                patchTodo({ ...task, done: !task.done }, id).then((data) => {
+                    if (data?.statusText === 'OK') {
+                        getTodos()
+                            .then((data) => setTasks(data))
+                            .catch((error) => console.log(error));
+                    }
+                });
+            } else {
+                console.log('Nothing founded');
+            }
+        });
 
-    return <TasksContext.Provider value={{ tasks, setTask, submitHandler }}>{children}</TasksContext.Provider>;
+        // return updateTaskStatus;
+    }
+
+    return <TasksContext.Provider value={{ tasks, submitHandler, getSingleTask, checked, setChecked }}>{children}</TasksContext.Provider>;
 };
 
 export const useTasksContext = () => {

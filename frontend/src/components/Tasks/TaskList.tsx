@@ -6,14 +6,13 @@ import { TaskItem } from './TaskItem';
 
 //TODO: invisible input with changes
 
-export const TaskTab = ({ tasks }: { tasks: TaskObjTypes[] }) => {
+export const TaskList = ({ tasks }: { tasks: TaskObjTypes[] }) => {
     if (!tasks) return null;
-
     return (
         <>
             <ul className="max-w-4xl flex flex-col m-auto">
                 {tasks.map((task: TaskObjTypes) => (
-                    <TaskItem key={task.id} task={task} id={task.id} />
+                    <TaskItem key={task.id} task={task} />
                 ))}
             </ul>
         </>

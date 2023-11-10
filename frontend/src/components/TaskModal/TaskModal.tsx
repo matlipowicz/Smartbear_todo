@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from 'src/components/Calendar/DatePicker';
 import { Time } from 'src/components/Calendar/TimePicker';
-import { useMenuContext } from 'src/context/MenuContext/MenuContext';
-import { useModalContext } from 'src/context/ModalContext/ModalContext';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
-import { useOutsideClick } from 'src/hooks/useOutsideClick';
 import * as yup from 'yup';
 
 import Flag from '../../../public/icons/flag.svg?react';
@@ -15,6 +11,7 @@ import Send from '../../../public/icons/send.svg?react';
 import Tag from '../../../public/icons/tag.svg?react';
 import Timer from '../../../public/icons/timer.svg?react';
 
+import { GenericModal } from './GenericModal';
 import { TaskTitle } from './TaskTitle';
 
 export type TaskObjTypes = {
@@ -35,24 +32,8 @@ function getWindowSize() {
 }
 
 export const TaskModal = () => {
-    const { isOpen, close } = useModalContext();
     const [formPage, setFormPage] = useState<number>(1);
     const { submitHandler, tasks } = useTasksContext();
-    const { openMenu, setOpenMenu } = useMenuContext();
-    const ref = useOutsideClick<HTMLDivElement>(close);
-    const [windowSize, setWindowSize] = useState<number>(getWindowSize());
-
-    useEffect(() => {
-        function handleWindowResize() {
-            setWindowSize(getWindowSize());
-        }
-
-        window.addEventListener('resize', handleWindowResize);
-
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, []);
 
     const validationSchema = [
         yup.object({
@@ -177,37 +158,14 @@ export const TaskModal = () => {
         setFormPage((prev: number) => prev - 1);
     }
 
-    if (!isOpen) return null;
-
-    return ReactDOM.createPortal(
+    return (
         <>
-            <section
-                className={`fixed inset-0 w-full h-full bg-gray-200/50 backdrop-blur-md z-9999 p-4 ${
-                    openMenu ? 'lg:ml-64 duration-500' : 'duration-700	'
-                }`}
-            >
-                <div
-                    className={`fixed  w-full min-w-[21.875rem] max-w-[34rem] p-4 bg-gray-200 top-1/2 left-1/2 ${
-                        openMenu && windowSize >= 1024 ? '-translate-x-translateModalX' : '-translate-x-1/2'
-                    }  -translate-y-1/2 z-1000`}
-                    ref={ref}
-                >
-                    <form className="flex gap-4 flex-col">
-                        {renderView()}
-                        {renderButton()}
-                    </form>
-                </div>
-                <button onClick={close} className={`text-white hover:bg-gray-200 p-2 rounded-md ${openMenu ? 'hidden' : 'block'}`}>
-                    <svg aria-hidden="true" className="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            fillRule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                        />
-                    </svg>
-                </button>
-            </section>
-        </>,
-        document.getElementById('portal') as HTMLElement
+            <GenericModal background="bg-gray-200/50" blur="backdrop-blur-md">
+                <form className="flex gap-4 flex-col">
+                    {renderView()}
+                    {renderButton()}
+                </form>
+            </GenericModal>
+        </>
     );
 };
