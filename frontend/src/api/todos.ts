@@ -15,7 +15,6 @@ export const getTodos = async () => {
 export const postTodo = async (todoData: TaskObjTypes) => {
     try {
         const postedData = await axios.post('http://localhost:3000/todos', todoData);
-        console.log(postedData);
         return postedData;
     } catch (error) {
         console.log('POST status', error);
@@ -25,9 +24,18 @@ export const postTodo = async (todoData: TaskObjTypes) => {
 export const patchTodo = async (todoData: Partial<TaskObjTypes>, id: number | undefined) => {
     try {
         const patchedData = await axios.patch(`http://localhost:3000/todos/${id}`, todoData);
-        console.log(patchedData);
+
         return patchedData;
     } catch (error) {
         console.log('PATCH status', error);
+    }
+};
+
+export const deleteTodo = async (id: number | undefined) => {
+    try {
+        const deletedData = await axios.delete(`http://localhost:3000/todos/${id}`);
+        return deletedData;
+    } catch (error) {
+        console.log('Error:', error);
     }
 };

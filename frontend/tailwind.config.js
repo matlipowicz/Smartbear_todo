@@ -4,6 +4,7 @@ export default {
         './src/**/*.{js,ts,jsx,tsx}',
         'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
         './node_modules/tailwind-datepicker-react/dist/**/*.js',
+        './node_modules/react-tailwindcss-select/dist/index.esm.js',
     ],
     theme: {
         extend: {
@@ -11,6 +12,9 @@ export default {
                 'bright-purple-100': '#8687E7',
                 'bright-purple-200': '#8875FF',
                 'bright-purple-300': '#8E7CFF',
+
+                'complete-task-green': '#77dd77',
+                'complete-task-red': '#ff6961',
 
                 'gray-100': '#979797',
                 'gray-200': '#363636',
@@ -20,14 +24,13 @@ export default {
                 'red-100': '#FF4949',
                 'category-red': '#CC4173',
                 'category-orange': '#CC8441',
-                'category-yellow-100': '#C9CC41',
-                'category-yellow-200': '#FFCC80',
+                'category-yellow-100': '#FFCC80',
                 'category-green': '#66CC41',
                 'category-turquiose': '#41CCA7',
                 'category-blue-100': '#41A2CC',
                 'category-blue-200': '#4181CC',
-                'category-purple-200': '#809CFF',
-                'category-purple-100': '#9741CC',
+                'category-purple-100': '#809CFF',
+                'category-purple-200': '#9741CC',
                 'black-edit': '#121212',
             },
             fontFamily: {
@@ -58,6 +61,7 @@ export default {
             maxWidth: {
                 datePickerWidth: '28.75rem',
                 taskModal: '34rem',
+                editPage: '37.5rem',
             },
             fontSize: {
                 clamp: 'clamp(1rem, 5vw, 3rem)',

@@ -1,7 +1,11 @@
+import { useEffect, useState } from 'react';
+import DateTimePicker from 'react-datetime-picker';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Dropdown } from 'flowbite-react';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
 
-import Edit from '../../../public/icons/edit-2.svg?react';
 import Flag from '../../../public/icons/flag.svg?react';
 import Tag from '../../../public/icons/tag.svg?react';
 import Timer from '../../../public/icons/timer.svg?react';
@@ -9,100 +13,202 @@ import TrashCan from '../../../public/icons/trash.svg?react';
 
 import { TaskCheckbox } from './TaskCheckbox';
 
-// const ICONS = [
-//     {
-//         icon: <Timer className="w-6 h-6 fill-current text-white hover:text-bright-purple-100 cursor-pointer" />,
-//         property: 'Task time',
-//     },
-//     {
-//         icon: <Tag className="w-6 h-6 fill-current text-white hover:text-bright-purple-100 cursor-pointer" />,
-//         property: 'Task category',
-//     },
-//     {
-//         icon: <Flag className="w-6 h-6 fill-current text-white hover:text-bright-purple-100 cursor-pointer" />,
-//         property: 'Task priorioty',
-//     },
-//     {
-//         icon: (
-//             <button>
-//                 <TrashCan className="w-6 h-6 fill-current text-red-100 hover:text-red-600 cursor-pointer" />
-//             </button>
-//         ),
-//         property: 'Delete task',
-//     },
-// ];
+const CATEGORIES = [
+    {
+        value: 'red',
+        categoryClr: 'bg-category-red',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-red" />,
+    },
+    {
+        value: 'orange',
+        categoryClr: 'bg-category-orange',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-orange" />,
+    },
+    {
+        value: 'yellow',
+        categoryClr: 'bg-category-yellow-100',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-yellow-100" />,
+    },
+    {
+        value: 'green',
+        categoryClr: 'bg-category-green',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-green" />,
+    },
+    {
+        value: 'turquiose',
+        categoryClr: 'bg-category-turquiose',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-turquiose" />,
+    },
+    {
+        value: 'blue-bright',
+        categoryClr: 'bg-category-blue-100',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-blue-100" />,
+    },
+    {
+        value: 'blue-darker',
+        categoryClr: 'bg-category-blue-200',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-blue-200" />,
+    },
+    {
+        value: 'purple-bright',
+        categoryClr: 'bg-category-purple-100',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-purple-100" />,
+    },
+    {
+        value: 'purple-darker',
+        categoryClr: 'bg-category-purple-200',
+        dotElement: <div className="w-5 h-5 rounded-full bg-category-purple-200" />,
+    },
+];
+
+export type CategoriesType = {
+    categoryClr: string | undefined;
+    value: string | undefined;
+};
 
 export const TaskDetails = () => {
     const { id } = useParams();
-    const { tasks } = useTasksContext();
+    const { deleteTask, findSingleTask, singleTask, editTask } = useTasksContext();
+    const navigate = useNavigate();
+    const [category, setCategory] = useState<CategoriesType>({
+        categoryClr: singleTask?.label_category?.categoryClr,
+        value: singleTask?.label_category?.value,
+    });
+    const [value, onChange] = useState('');
 
-    // TODO: Add category choice
-    const task = tasks.find((task) => task.id === Number(id));
+    const { register, handleSubmit, setValue } = useForm({
+        defaultValues: { ...singleTask },
+    });
+
+    const handleDelete = (id: number) => {
+        deleteTask(id);
+        navigate('/tasks');
+    };
+
+    useEffect(() => {
+        findSingleTask(Number(id));
+        onChange(singleTask?.finalDate);
+        setCategory({
+            categoryClr: singleTask?.label_category?.categoryClr,
+            value: singleTask?.label_category?.value,
+        });
+    }, [findSingleTask, id, singleTask]);
+
+    useEffect(() => {
+        setValue('label_category', category);
+    }, [setCategory, setValue, category]);
+
+    useEffect(() => {
+        setValue('finalDate', value);
+    }, [value, setValue]);
 
     return (
         <>
-            {task && (
-                <section className="h-full w-full flex flex-col gap-4 ">
-                    <div>
-                        <div className="flex gap-4 mb-4">
-                            <TaskCheckbox task_title={task.task_title} id={task.id} isChecked={task.done} />
-
-                            <div className="self-start">
-                                <p className="text-lg">{task?.task_title}</p>
-                                <p className="font-light text-gray-100	">{task?.description}</p>
-                            </div>
-                            <p className="grow flex justify-end">
-                                <Edit className="w-6 h-6 fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
-                            </p>
-                        </div>
-                    </div>
-                    <div>
+            {singleTask && (
+                <section className="h-full m-auto max-w-editPage flex flex-col gap-4  ">
+                    <form onSubmit={handleSubmit((data) => editTask(singleTask.id, data))} className="">
                         <div>
-                            <div className="flex mb-5 ml-6 gap-4 justify-between">
-                                <Timer className="w-6 h-6 min-w-fit	 fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
-                                <p className="grow">Task time</p>
+                            <div className="flex gap-4 mb-4 items-center">
+                                <TaskCheckbox task_title={singleTask.task_title} id={singleTask.id} isChecked={singleTask.done} />
 
-                                <input
-                                    defaultValue={task?.finalDate}
-                                    type="text"
-                                    className=" border border-gray-300 w-full text-gray-900 text-sm rounded-lg focus:ring-bright-purple-100 focus:border-bright-purple-100 block  p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-white dark:focus:ring-bright-purple-1000 dark:focus:border-bright-purple-100"
-                                />
-                            </div>
-                            <div className="flex mb-5 ml-6 gap-4 justify-between">
-                                <Tag className="w-6 h-6 min-w-fit fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
-                                <p className="grow">Task category</p>
-
-                                <input
-                                    defaultValue={'none'}
-                                    type="text"
-                                    className=" border border-gray-300 w-full text-gray-900 text-sm rounded-lg focus:ring-bright-purple-100 focus:border-bright-purple-100 block  p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-white dark:focus:ring-bright-purple-1000 dark:focus:border-bright-purple-100"
-                                />
-                            </div>
-                            <div className="flex mb-5 ml-6 gap-4 justify-between">
-                                <Flag className="w-6 h-6 min-w-fit fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
-                                <p className="grow">Task priority</p>
-
-                                <input
-                                    defaultValue={task?.priority}
-                                    type="select"
-                                    className=" border border-gray-300 w-full text-gray-900 text-sm rounded-lg focus:ring-bright-purple-100 focus:border-bright-purple-100 block  p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-white dark:focus:ring-bright-purple-1000 dark:focus:border-bright-purple-100"
-                                />
-                            </div>
-                            <div className="flex mb-5 ml-6 gap-4">
-                                <button>
-                                    <TrashCan className="w-6 h-6 min-w-fit fill-current text-red-100 hover:text-red-600 cursor-pointer" />
-                                </button>
+                                <div className="w-full max-w-datePickerWidth">
+                                    <label htmlFor="task-title" className="text-xs md:text-sm lg:text-base font-thin text-bright-purple-100 ">
+                                        Task title
+                                    </label>
+                                    <input
+                                        {...register('task_title')}
+                                        defaultValue={singleTask?.task_title}
+                                        name="task_title"
+                                        className="  text-lg md:text-xl lg:text-2xl  rounded-lg  block w-full p-2.5 dark:bg-black-edit focus:dark:bg-gray-300 dark:placeholder-gray-400 dark:text-white dark:focus:ring-bright-purple-100 mb-2"
+                                    />
+                                    <label htmlFor="task_description" className="text-xs md:text-sm lg:text-base font-thin text-bright-purple-100 ">
+                                        Description
+                                    </label>
+                                    <textarea
+                                        {...register('description')}
+                                        defaultValue={singleTask?.description}
+                                        name="description"
+                                        className=" text-sm md:text-md lg:text-xl text-light text-gray-300 rounded-lg focus:ring-bright-purple-100 focus:border-bright-purple-100 block w-full p-2.5 dark:bg-black-edit focus:dark:bg-gray-300 dark:placeholder-gray-300 dark:text-gray-100 "
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <button
-                            type="button"
-                            className="focus:outline-none text-white bg-bright-purple-100 hover:bg-bright-purple-300 focus:ring-2 focus:ring-bright-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-bright-purple-100   dark:focus:ring-bright-purple-300 w-full"
-                        >
-                            Edit
-                        </button>
-                    </div>
+                        <div>
+                            <div>
+                                <div className="flex mb-5 ml-2 gap-2 justify-between">
+                                    <div className="flex gap-2 min-w-fit ">
+                                        <Timer className="w-6 h-6 min-w-fit	 fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
+                                        <p className="mr-12">Task time</p>
+                                    </div>
+
+                                    <DateTimePicker
+                                        onChange={onChange}
+                                        value={value}
+                                        disableClock
+                                        clearIcon={null}
+                                        calendarIcon={null}
+                                        className=" border-gray-300 w-full text-gray-900 text-sm rounded-lg focus:ring-bright-purple-100 focus:border-bright-purple-100 block  dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-white dark:focus:ring-bright-purple-1000 dark:focus:border-bright-purple-100 "
+                                    />
+                                    <input type="hidden" {...register('finalDate')} />
+                                </div>
+                                <div className="flex mb-5 ml-2 gap-2 justify-between">
+                                    <div className="flex gap-2 min-w-fit ">
+                                        <Tag className="w-6 h-6 min-w-fit fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
+                                        <p className="min-w-fit mr-12">Task category</p>
+                                    </div>
+                                    <input type="hidden" {...register('label_category')} />
+
+                                    <Dropdown label={<div className={`w-5 h-5 rounded-full ${category.categoryClr}`} />}>
+                                        {CATEGORIES.map((category) => {
+                                            return (
+                                                <Dropdown.Item
+                                                    key={category.value}
+                                                    onClick={() =>
+                                                        setCategory({
+                                                            value: category.value,
+                                                            categoryClr: category.categoryClr,
+                                                        })
+                                                    }
+                                                >
+                                                    <div className={`w-5 h-5 rounded-full ${category?.categoryClr}`} />
+                                                    <p className="ml-4 text-gray-100">{category.value}</p>
+                                                </Dropdown.Item>
+                                            );
+                                        })}
+                                    </Dropdown>
+                                </div>
+                                <div className="flex mb-5 ml-2 gap-2 justify-between">
+                                    <div className="flex gap-2 min-w-fit ">
+                                        <Flag className="w-6 h-6 min-w-fit fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
+                                        <p className="min-w-fit mr-12">Task priority</p>
+                                    </div>
+                                    <select
+                                        defaultValue={singleTask.priority}
+                                        className=" border border-gray-300 w-fit-content text-gray-900 text-sm rounded-lg focus:ring-bright-purple-100 focus:border-bright-purple-100 block  p-2.5 dark:bg-gray-200 dark:border-gray-100 dark:placeholder-gray-400 dark:text-white dark:focus:ring-bright-purple-1000 dark:focus:border-bright-purple-100 text-center"
+                                        {...register('priority')}
+                                    >
+                                        <option>{1}</option>
+                                        <option>{2}</option>
+                                        <option>{3}</option>
+                                        <option>{4}</option>
+                                    </select>
+                                </div>
+                                <div className="flex mb-5 ml-6 gap-2 justify-end">
+                                    <button onClick={() => handleDelete(Number(id))}>
+                                        <TrashCan className="w-6 h-6 min-w-fit fill-current text-red-100 hover:text-red-600 cursor-pointer" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                type="submit"
+                                className="focus:outline-none text-white bg-bright-purple-100 hover:bg-bright-purple-300 focus:ring-2 focus:ring-bright-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-bright-purple-100   dark:focus:ring-bright-purple-300 w-full"
+                            >
+                                Edit
+                            </button>
+                        </div>
+                    </form>
                 </section>
             )}
         </>

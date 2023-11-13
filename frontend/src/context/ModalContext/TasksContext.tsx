@@ -3,15 +3,18 @@ import moment from 'moment';
 import { getTodos } from 'src/api/todos';
 import { postTodo } from 'src/api/todos';
 import { patchTodo } from 'src/api/todos';
+import { deleteTodo } from 'src/api/todos';
 import { TaskObjTypes } from 'src/components/TaskModal/TaskModal';
+
 type TaskContextTypes = {
     checked: boolean | undefined;
-    getSingleTask: (id: number) => TaskObjTypes | undefined;
-    handleChecked: () => void;
+    deleteTask(id: number): Promise<void>;
+    editTask: (id: number, data: TaskObjTypes) => Promise<void>;
+    findSingleTask: (id: number) => TaskObjTypes | undefined;
+    getSingleTask: (id: number) => Promise<void>;
     setChecked: React.Dispatch<React.SetStateAction<boolean | undefined>>;
-
+    singleTask: TaskObjTypes | null;
     submitHandler: (data: TaskObjTypes) => void;
-    task: TaskObjTypes | null;
     tasks: TaskObjTypes[];
 };
 
@@ -19,6 +22,7 @@ export const TasksContext = createContext<TaskContextTypes | null>(null);
 
 export const TasksProvider = ({ children }: { children: ReactNode }) => {
     const [tasks, setTasks] = useState<TaskObjTypes[]>([]);
+    const [singleTask, setSingleTask] = useState<TaskObjTypes | null>(null);
     const [checked, setChecked] = useState<boolean | undefined>(false);
 
     useEffect(() => {
@@ -28,7 +32,7 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     //* POST
-    const submitHandler = (data: TaskObjTypes) => {
+    const submitHandler = async (data: TaskObjTypes) => {
         const formatedDate = moment(data.scheduledOn, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
         const formatedTime = moment(data.time, 'HH:mm:ss A');
         formatedDate.set({
@@ -48,9 +52,16 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
             scheduledOn: data.scheduledOn,
             time: data.time,
             finalDate: finalTaskDate,
+            label_category: data.label_category,
+        }).then((data) => {
+            if (data?.statusText === 'Created') {
+                getTodos()
+                    .then((data) => setTasks(data))
+                    .catch((error) => console.log(error));
+            }
         });
     };
-    //* PATCH
+    //* PATCH done
     async function getSingleTask(id: number) {
         tasks.filter((task) => {
             if (task.id === id) {
@@ -61,15 +72,48 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
                             .catch((error) => console.log(error));
                     }
                 });
-            } else {
-                console.log('Nothing founded');
             }
         });
-
-        // return updateTaskStatus;
     }
 
-    return <TasksContext.Provider value={{ tasks, submitHandler, getSingleTask, checked, setChecked }}>{children}</TasksContext.Provider>;
+    //* PATCH EDIT
+
+    async function editTask(id: number, data: TaskObjTypes) {
+        tasks.filter((task) => {
+            if (task.id === id) {
+                patchTodo({ ...task, ...data }, id).then((data) => {
+                    if (data?.statusText === 'OK') {
+                        getTodos()
+                            .then((data) => setTasks(data))
+                            .catch((error) => console.log(error));
+                    }
+                });
+            }
+        });
+    }
+
+    //* DELETE
+
+    async function deleteTask(id: number) {
+        tasks.filter((task) => {
+            if (task.id === id) {
+                deleteTodo(id).then((data) => {
+                    if (data?.statusText === 'OK') {
+                        getTodos()
+                            .then((data) => setTasks(data))
+                            .catch((error) => console.log(error));
+                    }
+                });
+            }
+        });
+    }
+    const findSingleTask = (id: number) => tasks.find((task) => (task.id === id ? setSingleTask(task) : null));
+
+    return (
+        <TasksContext.Provider value={{ tasks, submitHandler, getSingleTask, checked, setChecked, deleteTask, findSingleTask, singleTask, editTask }}>
+            {children}
+        </TasksContext.Provider>
+    );
 };
 
 export const useTasksContext = () => {

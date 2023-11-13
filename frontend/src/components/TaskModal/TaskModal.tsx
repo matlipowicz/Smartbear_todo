@@ -10,6 +10,7 @@ import Flag from '../../../public/icons/flag.svg?react';
 import Send from '../../../public/icons/send.svg?react';
 import Tag from '../../../public/icons/tag.svg?react';
 import Timer from '../../../public/icons/timer.svg?react';
+import { CategoriesType } from '../Tasks/TaskDetails';
 
 import { GenericModal } from './GenericModal';
 import { TaskTitle } from './TaskTitle';
@@ -20,6 +21,7 @@ export type TaskObjTypes = {
     done: boolean;
     finalDate: string;
     id: number;
+    label_category: CategoriesType;
     priority: number;
     scheduledOn: string;
     task_title: string;
@@ -33,7 +35,7 @@ function getWindowSize() {
 
 export const TaskModal = () => {
     const [formPage, setFormPage] = useState<number>(1);
-    const { submitHandler, tasks } = useTasksContext();
+    const { submitHandler } = useTasksContext();
 
     const validationSchema = [
         yup.object({
@@ -71,6 +73,7 @@ export const TaskModal = () => {
             createdOn: 0,
             scheduledOn: '',
             time: '',
+            label_category: { categoryClr: '', value: '' },
             done: false,
             priority: 0,
             finalDate: '',

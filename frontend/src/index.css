@@ -65,3 +65,15 @@
 .react-time-picker__inputGroup__input:invalid {
     @apply bg-bright-purple-100/20;
 }
+
+.react-datetime-picker__inputGroup {
+    @apply rounded-lg;
+    @apply border-none;
+}
+
+.react-datetime-picker__wrapper {
+    @apply rounded-lg;
+    @apply p-1.5;
+    @apply text-center;
+    @apply overflow-y-scroll;
+}
