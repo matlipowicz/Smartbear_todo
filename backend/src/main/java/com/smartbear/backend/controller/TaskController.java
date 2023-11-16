@@ -3,14 +3,13 @@ package com.smartbear.backend.controller;
 import com.smartbear.backend.model.Task;
 import com.smartbear.backend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("/todos")
+@RequestMapping
 public class TaskController {
 
 
@@ -21,10 +20,29 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/get")
-    public String getAll() {
-//        return taskService.getAll();
-        return "Dupa";
+    @GetMapping("/todos")
+    public List<Task> getAllTasks() {
+            return taskService.getAll();
+    }
+
+    @GetMapping("/todos/{id}")
+    public Task getSingleTask(@PathVariable Long id){
+        return taskService.getTask(id);
+    }
+
+    @PostMapping("/todos")
+    public Task createTask(@RequestBody Task task){
+        return taskService.postTask(task);
+    }
+
+    @PatchMapping("/todos/{id}")
+    public Task patchingTask(@PathVariable Long id, @RequestBody Task task){
+        return taskService.patchTask(id,task);
+    }
+
+    @DeleteMapping("/todos/{id}")
+    public void deletingTask(@PathVariable Long id){
+         taskService.deleteTask(id);
     }
 
 }

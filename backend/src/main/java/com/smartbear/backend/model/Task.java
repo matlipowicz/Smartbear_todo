@@ -1,24 +1,29 @@
 package com.smartbear.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
+@Table(name = "todo")
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String task_title;
     private String description;
     private long createdOn;
@@ -26,12 +31,12 @@ public class Task {
     private String priority;
     private LocalDateTime scheduledOn;
     private LocalTime time;
-    private LocalDateTime finalDate;
-    @Embedded
-    private CategoryLabel categoryLabel;
+    private OffsetDateTime finalDate;
+    private String categoryClr;
+    private String colorValue;
 
 
-    public Task(String task_title, String description, long createdOn, boolean done, String priority, LocalDateTime scheduledOn, LocalTime time, LocalDateTime finalDate, CategoryLabel categoryLabel) {
+    public Task(String task_title, String description, long createdOn, boolean done, String priority, LocalDateTime scheduledOn, LocalTime time, OffsetDateTime finalDate, String categoryClr, String colorValue) {
         this.task_title = task_title;
         this.description = description;
         this.createdOn = createdOn;
@@ -40,7 +45,12 @@ public class Task {
         this.scheduledOn = scheduledOn;
         this.time = time;
         this.finalDate = finalDate;
-        this.categoryLabel = categoryLabel;
+        this.categoryClr = categoryClr;
+        this.colorValue = colorValue;
+    }
+
+    public boolean getDone(){
+        return done;
     }
 
     @Override

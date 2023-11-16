@@ -3,7 +3,7 @@ import { TaskObjTypes } from 'src/components/TaskModal/TaskModal';
 
 export const getTodos = async () => {
     try {
-        const { data } = await axios.get('http://localhost:3000/todos');
+        const { data } = await axios.get('http://localhost:8080/todos');
         return data;
     } catch (error) {
         console.log(error);

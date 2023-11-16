@@ -15,21 +15,21 @@ services:
 
 
 
-  # Spring Boot container
-  backend:
-    build: .
-    container_name: backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/todoapp
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: mateusz
-
-volumes:
-  pgdata: {}
+#   Spring Boot container
+#  backend:
+#    build: .
+#    container_name: backend
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/todoapp
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: mateusz
+#
+#volumes:
+#  pgdata: {}
 
 #  # React container
 #  frontend:
