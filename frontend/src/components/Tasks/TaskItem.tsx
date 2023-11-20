@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { TaskObjTypes } from 'src/components/TaskModal/TaskModal';
+import { TaskObjTypes } from 'src/types/types';
 
 import Flag from '../../../public/icons/flag.svg?react';
 
@@ -26,7 +26,8 @@ export const TaskItem = ({ task }: { task: TaskObjTypes }) => {
         };
     }, [selectDropdown]);
 
-    const formatedDate = new Date(task?.finalDate).toLocaleDateString('');
+    const multipliedDate = (task?.finalDate as number) * 1000;
+    const formatedDate = new Date(multipliedDate).toLocaleDateString();
 
     return (
         <li key={task?.finalDate} className="mb-4 hover:cursor-pointer  ">
@@ -45,7 +46,7 @@ export const TaskItem = ({ task }: { task: TaskObjTypes }) => {
                 </div>
                 <div className="absolute bottom-2 right-2 flex items-center gap-4">
                     <div className="relative" />
-                    <div className={`w-5 h-5 rounded-full ${task?.label_category?.categoryClr}`} />
+                    <div className={`w-5 h-5 rounded-full ${task?.categoryClr}`} />
                     <div className="w-min">
                         <div className="flex items-center gap-2 border-2 border-bright-purple-100 p-1">
                             <Flag className="w-5 h-5 fill-current text-white" />

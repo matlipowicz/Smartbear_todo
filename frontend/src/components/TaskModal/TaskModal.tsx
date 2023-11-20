@@ -4,34 +4,21 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from 'src/components/Calendar/DatePicker';
 import { Time } from 'src/components/Calendar/TimePicker';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
+import { TaskObjTypes } from 'src/types/types';
 import * as yup from 'yup';
 
 import Flag from '../../../public/icons/flag.svg?react';
 import Send from '../../../public/icons/send.svg?react';
 import Tag from '../../../public/icons/tag.svg?react';
 import Timer from '../../../public/icons/timer.svg?react';
-import { CategoriesType } from '../Tasks/TaskDetails';
 
 import { GenericModal } from './GenericModal';
 import { TaskTitle } from './TaskTitle';
 
-export type TaskObjTypes = {
-    createdOn?: number;
-    description?: string | undefined;
-    done: boolean;
-    finalDate: string;
-    id: number;
-    label_category: CategoriesType;
-    priority: number;
-    scheduledOn: string;
-    task_title: string;
-    time: string;
-};
-
-function getWindowSize() {
-    const { innerWidth } = window;
-    return innerWidth;
-}
+// function getWindowSize() {
+//     const { innerWidth } = window;
+//     return innerWidth;
+// }
 
 export const TaskModal = () => {
     const [formPage, setFormPage] = useState<number>(1);
@@ -50,7 +37,6 @@ export const TaskModal = () => {
             done: yup.boolean(),
             priority: yup.number(),
             createdOn: yup.string(),
-            id: yup.number(),
         }),
     ];
 
@@ -67,18 +53,18 @@ export const TaskModal = () => {
         mode: 'onChange',
         shouldUnregister: false,
         defaultValues: {
-            id: 0,
             task_title: '',
             description: '',
             createdOn: 0,
             scheduledOn: '',
             time: '',
-            label_category: { categoryClr: '', value: '' },
+            categoryClr: '',
+            colorValue: '',
             done: false,
             priority: 0,
             finalDate: '',
         },
-        resolver: yupResolver(currentSchema as any),
+        resolver: yupResolver(currentSchema as yup.ObjectSchema<TaskObjTypes>),
     });
 
     useEffect(() => {
@@ -163,7 +149,7 @@ export const TaskModal = () => {
 
     return (
         <>
-            <GenericModal background="bg-gray-200/50" blur="backdrop-blur-md">
+            <GenericModal background="bg-gray-400/30" blur="backdrop-blur-md">
                 <form className="flex gap-4 flex-col">
                     {renderView()}
                     {renderButton()}

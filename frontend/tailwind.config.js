@@ -16,6 +16,9 @@ export default {
                 'complete-task-green': '#77dd77',
                 'complete-task-red': '#ff6961',
 
+                'big-calendar-task-complete-100': '#073F39',
+                'big-calendar-task-complete-200': '#0C6151',
+
                 'gray-100': '#979797',
                 'gray-200': '#363636',
                 'gray-300': '#272727',
@@ -25,6 +28,7 @@ export default {
                 'category-red': '#CC4173',
                 'category-orange': '#CC8441',
                 'category-yellow-100': '#FFCC80',
+                'category-yellow-200': '#ffbe5c',
                 'category-green': '#66CC41',
                 'category-turquiose': '#41CCA7',
                 'category-blue-100': '#41A2CC',

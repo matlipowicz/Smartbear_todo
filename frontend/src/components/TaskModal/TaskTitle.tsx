@@ -1,6 +1,5 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-
-import { TaskObjTypes } from './TaskModal';
+import { TaskObjTypes } from 'src/types/types';
 
 export const TaskTitle = ({ register, errors }: { errors: FieldErrors<TaskObjTypes>; register: UseFormRegister<TaskObjTypes> }) => {
     return (

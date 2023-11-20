@@ -4,14 +4,14 @@ import { getTodos } from 'src/api/todos';
 import { postTodo } from 'src/api/todos';
 import { patchTodo } from 'src/api/todos';
 import { deleteTodo } from 'src/api/todos';
-import { TaskObjTypes } from 'src/components/TaskModal/TaskModal';
+import { TaskObjTypes } from 'src/types/types';
 
 type TaskContextTypes = {
     checked: boolean | undefined;
-    deleteTask(id: number): Promise<void>;
-    editTask: (id: number, data: TaskObjTypes) => Promise<void>;
-    findSingleTask: (id: number) => TaskObjTypes | undefined;
-    getSingleTask: (id: number) => Promise<void>;
+    deleteTask(id: number | undefined): Promise<void>;
+    editTask: (id: number | undefined, data: TaskObjTypes) => Promise<void>;
+    findSingleTask: (id: number | undefined) => TaskObjTypes | undefined;
+    getSingleTask: (id: number | undefined) => Promise<void>;
     setChecked: React.Dispatch<React.SetStateAction<boolean | undefined>>;
     singleTask: TaskObjTypes | null;
     submitHandler: (data: TaskObjTypes) => void;
@@ -24,6 +24,8 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
     const [tasks, setTasks] = useState<TaskObjTypes[]>([]);
     const [singleTask, setSingleTask] = useState<TaskObjTypes | null>(null);
     const [checked, setChecked] = useState<boolean | undefined>(false);
+
+    //TODO: add filter by priority to some button
 
     useEffect(() => {
         getTodos()
@@ -43,30 +45,32 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
         const finalTaskDate = formatedDate.format();
 
         postTodo({
-            id: tasks.length + 1,
             task_title: data.task_title,
             description: data.description || undefined,
             createdOn: Date.now() || undefined,
             done: data.done,
             priority: 0,
-            scheduledOn: data.scheduledOn,
+            scheduledOn: '',
             time: data.time,
             finalDate: finalTaskDate,
-            label_category: data.label_category,
+            categoryClr: '',
+            colorValue: '',
         }).then((data) => {
-            if (data?.statusText === 'Created') {
+            if (data?.status === 200) {
                 getTodos()
-                    .then((data) => setTasks(data))
+                    .then((data) => {
+                        setTasks(data);
+                    })
                     .catch((error) => console.log(error));
             }
         });
     };
     //* PATCH done
-    async function getSingleTask(id: number) {
+    async function getSingleTask(id: number | undefined) {
         tasks.filter((task) => {
             if (task.id === id) {
                 patchTodo({ ...task, done: !task.done }, id).then((data) => {
-                    if (data?.statusText === 'OK') {
+                    if (data?.status === 200) {
                         getTodos()
                             .then((data) => setTasks(data))
                             .catch((error) => console.log(error));
@@ -78,11 +82,11 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
 
     //* PATCH EDIT
 
-    async function editTask(id: number, data: TaskObjTypes) {
+    async function editTask(id: number | undefined, data: TaskObjTypes) {
         tasks.filter((task) => {
             if (task.id === id) {
                 patchTodo({ ...task, ...data }, id).then((data) => {
-                    if (data?.statusText === 'OK') {
+                    if (data?.status === 200) {
                         getTodos()
                             .then((data) => setTasks(data))
                             .catch((error) => console.log(error));
@@ -94,11 +98,12 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
 
     //* DELETE
 
-    async function deleteTask(id: number) {
+    async function deleteTask(id: number | undefined) {
         tasks.filter((task) => {
             if (task.id === id) {
                 deleteTodo(id).then((data) => {
-                    if (data?.statusText === 'OK') {
+                    console.log(data);
+                    if (data?.status === 200) {
                         getTodos()
                             .then((data) => setTasks(data))
                             .catch((error) => console.log(error));
@@ -107,10 +112,23 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
             }
         });
     }
-    const findSingleTask = (id: number) => tasks.find((task) => (task.id === id ? setSingleTask(task) : null));
+    const findSingleTask = (id: number | undefined) => tasks.find((task) => (task.id === id ? setSingleTask(task) : null));
 
     return (
-        <TasksContext.Provider value={{ tasks, submitHandler, getSingleTask, checked, setChecked, deleteTask, findSingleTask, singleTask, editTask }}>
+        <TasksContext.Provider
+            value={{
+                tasks,
+                submitHandler,
+                getSingleTask,
+                checked,
+                setChecked,
+                deleteTask,
+                findSingleTask,
+                singleTask,
+                editTask,
+                setTasks,
+            }}
+        >
             {children}
         </TasksContext.Provider>
     );

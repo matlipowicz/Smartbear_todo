@@ -7,9 +7,11 @@ import { ModalProvider } from './context/ModalContext/ModalContext';
 import { TasksProvider } from './context/ModalContext/TasksContext';
 import { MainLayout } from './layout/MainLayout';
 import AllTasks from './pages/AllTasks/AllTasks';
-import Calendar from './pages/Calendar/Calendar';
+import { Calendar } from './pages/Calendar/Calendar';
 import Home from './pages/Home/Home';
 import Profile from './pages/Profile/Profile';
+
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 function App() {
     return (
@@ -19,12 +21,19 @@ function App() {
                     <MainLayout>
                         <TaskModal />
                         <Routes>
-                            <Route path="/tasks">
+                            <Route path="/">
                                 <Route index element={<Home />} />
                                 <Route path=":id" element={<TaskDetails />} />
                             </Route>
-                            <Route path="/calendar" element={<Calendar />} />
-                            <Route path="/all-tasks" element={<AllTasks />} />
+                            <Route path="/calendar">
+                                <Route index element={<Calendar />} />
+                                <Route path=":id" element={<TaskDetails />} />
+                            </Route>
+                            <Route path="/all-tasks">
+                                <Route index element={<AllTasks />} />
+                                <Route path=":id" element={<TaskDetails />} />
+                            </Route>
+
                             <Route path="/profile" element={<Profile />} />
                         </Routes>
                     </MainLayout>

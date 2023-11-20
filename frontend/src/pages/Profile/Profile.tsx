@@ -1,5 +1,7 @@
+import { EventModal } from 'src/components/TaskModal/EventModal';
+
 const Profile = () => {
-    return <div>Profile</div>;
+    return <EventModal />;
 };
 
 export default Profile;

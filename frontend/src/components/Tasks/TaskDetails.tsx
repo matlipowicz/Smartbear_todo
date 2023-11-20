@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
 import { useForm } from 'react-hook-form';
+import { IoIosArrowBack } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'flowbite-react';
@@ -70,11 +71,9 @@ export const TaskDetails = () => {
     const { id } = useParams();
     const { deleteTask, findSingleTask, singleTask, editTask } = useTasksContext();
     const navigate = useNavigate();
-    const [category, setCategory] = useState<CategoriesType>({
-        categoryClr: singleTask?.label_category?.categoryClr,
-        value: singleTask?.label_category?.value,
-    });
-    const [value, onChange] = useState('');
+    const [categoryColor, setCategoryColor] = useState<string | undefined>(singleTask?.categoryClr);
+    const [colorValue, setColorValue] = useState<string | undefined>(singleTask?.colorValue);
+    const [value, onChange] = useState<number | undefined | string>('');
 
     const { register, handleSubmit, setValue } = useForm({
         defaultValues: { ...singleTask },
@@ -82,21 +81,21 @@ export const TaskDetails = () => {
 
     const handleDelete = (id: number) => {
         deleteTask(id);
-        navigate('/tasks');
     };
 
     useEffect(() => {
+        const multipliedDate = (singleTask?.finalDate as number) * 1000;
+
         findSingleTask(Number(id));
-        onChange(singleTask?.finalDate);
-        setCategory({
-            categoryClr: singleTask?.label_category?.categoryClr,
-            value: singleTask?.label_category?.value,
-        });
+        onChange(multipliedDate);
+        setCategoryColor(singleTask?.categoryClr);
+        setColorValue(singleTask?.colorValue);
     }, [findSingleTask, id, singleTask]);
 
     useEffect(() => {
-        setValue('label_category', category);
-    }, [setCategory, setValue, category]);
+        setValue('categoryClr', categoryColor);
+        setValue('colorValue', colorValue);
+    }, [setCategoryColor, setValue, colorValue, categoryColor]);
 
     useEffect(() => {
         setValue('finalDate', value);
@@ -105,7 +104,10 @@ export const TaskDetails = () => {
     return (
         <>
             {singleTask && (
-                <section className="h-full m-auto max-w-editPage flex flex-col gap-4  ">
+                <section className="h-full m-auto max-w-editPage flex flex-col gap-4 mt-10">
+                    <button onClick={() => navigate(-1)}>
+                        <IoIosArrowBack className="text-2xl hover:fill-bright-purple-100 focus:fill-bright-purple-300" />
+                    </button>
                     <form onSubmit={handleSubmit((data) => editTask(singleTask.id, data))} className="">
                         <div>
                             <div className="flex gap-4 mb-4 items-center">
@@ -156,19 +158,18 @@ export const TaskDetails = () => {
                                         <Tag className="w-6 h-6 min-w-fit fill-current text-white hover:text-bright-purple-100 cursor-pointer" />
                                         <p className="min-w-fit mr-12">Task category</p>
                                     </div>
-                                    <input type="hidden" {...register('label_category')} />
+                                    <input type="hidden" {...register('categoryClr')} />
+                                    <input type="hidden" {...register('colorValue')} />
 
-                                    <Dropdown label={<div className={`w-5 h-5 rounded-full ${category.categoryClr}`} />}>
+                                    <Dropdown label={<div className={`w-5 h-5 rounded-full ${categoryColor}`} />}>
                                         {CATEGORIES.map((category) => {
                                             return (
                                                 <Dropdown.Item
-                                                    key={category.value}
-                                                    onClick={() =>
-                                                        setCategory({
-                                                            value: category.value,
-                                                            categoryClr: category.categoryClr,
-                                                        })
-                                                    }
+                                                    key={category.categoryClr}
+                                                    onClick={() => {
+                                                        setCategoryColor(category.categoryClr);
+                                                        setColorValue(category.value);
+                                                    }}
                                                 >
                                                     <div className={`w-5 h-5 rounded-full ${category?.categoryClr}`} />
                                                     <p className="ml-4 text-gray-100">{category.value}</p>
@@ -194,7 +195,12 @@ export const TaskDetails = () => {
                                     </select>
                                 </div>
                                 <div className="flex mb-5 ml-6 gap-2 justify-end">
-                                    <button onClick={() => handleDelete(Number(id))}>
+                                    <button
+                                        onClick={() => {
+                                            navigate(-1);
+                                            handleDelete(Number(id));
+                                        }}
+                                    >
                                         <TrashCan className="w-6 h-6 min-w-fit fill-current text-red-100 hover:text-red-600 cursor-pointer" />
                                     </button>
                                 </div>

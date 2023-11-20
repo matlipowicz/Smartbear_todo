@@ -23,7 +23,7 @@ function getWindowSize() {
 
 export const GenericModal = ({ children, background, blur }: { background: string; blur: string; children: ReactNode }) => {
     const { isOpen, close } = useModalContext();
-    const { openMenu, setOpenMenu } = useMenuContext();
+    const { openMenu } = useMenuContext();
     const ref = useOutsideClick<HTMLDivElement>(close);
     const [windowSize, setWindowSize] = useState<number>(getWindowSize());
 
@@ -44,12 +44,14 @@ export const GenericModal = ({ children, background, blur }: { background: strin
     return ReactDOM.createPortal(
         <>
             <section
-                className={`fixed inset-0 w-full h-full ${background} ${blur} z-9999 p-4 ${openMenu ? 'lg:ml-64 duration-500' : 'duration-700	'}`}
+                className={`fixed inset-0 w-full h-full transition-all ${background} ${blur} z-9999 p-4 ${
+                    openMenu ? 'lg:ml-64 duration-500' : 'duration-700	'
+                } `}
             >
                 <div
-                    className={`fixed  w-full min-w-[21.875rem] max-w-[34rem] p-4 bg-gray-200 top-1/2 left-1/2 ${
+                    className={`fixed  w-full min-w-[21.875rem] max-w-[34rem] p-4 bg-gray-200 top-1/2 left-1/2 rounded-md shadow-gray-400 shadow-lg	transform-all duration-1000 ${
                         openMenu && windowSize >= 1024 ? '-translate-x-translateModalX' : '-translate-x-1/2'
-                    }  -translate-y-1/2 z-1000`}
+                    }  -translate-y-1/2 z-1000 `}
                     ref={ref}
                 >
                     {children}

@@ -3,7 +3,6 @@ import React from 'react';
 import { ReactElement } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { NavLink } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { useMenuContext } from 'src/context/MenuContext/MenuContext';
 import { useModalContext } from 'src/context/ModalContext/ModalContext';
 
@@ -11,7 +10,6 @@ import Calendar from '../../public/icons/calendar.svg?react';
 import Clock from '../../public/icons/clock.svg?react';
 import Home from '../../public/icons/home.svg?react';
 import logo from '../../public/icons/logo.svg';
-import Sort from '../../public/icons/sort.svg?react';
 import User from '../../public/icons/user.svg?react';
 
 type ChildrienProps = {
@@ -28,8 +26,8 @@ export type RouteTypes = {
 export const ROUTES: RouteTypes[] = [
     {
         id: 1,
-        path: '/tasks',
-        name: 'Task list',
+        path: '/',
+        name: 'Home',
         icon: <Home className="w-6  h-6 fill-current text-white group-hover:text-bright-purple-100  " />,
     },
     {
@@ -54,29 +52,35 @@ export const ROUTES: RouteTypes[] = [
 
 export const MainLayout = ({ children }: ChildrienProps) => {
     const { open } = useModalContext();
-    const location = useLocation();
     const { openMenu, setOpenMenu } = useMenuContext();
+
     return (
         <>
             <div className="w-full  h-screen grid grid-cols-1 grid-rows-mobile-main-rows text-white lg:grid-rows-desktop-main-rows lg:flex	lg:flex-col lg:justify-stretch ">
                 <header className="px-6 pt-3.5 flex  justify-between align-baseline mb-12">
-                    <Sort className="w-8 h-8 fill-current text-white hover:text-bright-purple-100 self-center cursor-pointer lg:hidden" />
                     <button className="h-min hidden lg:flex" onClick={() => setOpenMenu(true)}>
                         <RxHamburgerMenu className=" w-10 h-10 cursor-pointer hover:text-bright-purple-100 hover:bg-gray-200/30 focus:text-bright-purple-100 focus:bg-gray-200/30 rounder-md p-1" />
                     </button>
-                    <NavLink to="/tasks" className="h-min">
+                    <NavLink to="/" className="h-min">
                         <img src={logo} alt="logo" className="w-10 h-10  cursor-pointer " />
                     </NavLink>
                     {/* TODO: Profile avatar */}
                     {/* <div className="rounded-full h-12 w-12 bg-red-100" /> */}
                 </header>
 
-                <main className={`px-6 ${openMenu ? 'lg:ml-64 duration-500' : 'duration-700	'} h-full `}>{children}</main>
+                <main className={`px-6 ${openMenu ? 'lg:ml-64 duration-500' : 'duration-700	'} h-full overflow-y-scroll	`}>{children}</main>
 
                 <nav className="w-screen bg-gray-200 h-25 self-end px-6 pb-3.5 relative sm:flex lg:hidden">
                     <button
                         onClick={open}
-                        disabled={location.pathname !== '/tasks' ? true : false}
+                        disabled={
+                            location.pathname !== '/' &&
+                            location.pathname !== '/calendar' &&
+                            location.pathname !== '/all-tasks' &&
+                            location.pathname !== '/calendar'
+                                ? true
+                                : false
+                        }
                         className="w-16 h-16  bg-bright-purple-100 rounded-full  absolute  right-1/2 translate-x-1/2 -translate-y-1/2 hover:bg-bright-purple-300 text-3xl lg:fixed lg:bottom-2 lg:right-2"
                     >
                         +
@@ -126,8 +130,6 @@ export function DesktopLayout({
             >
                 <button
                     type="button"
-                    data-drawer-hide="drawer-navigation"
-                    aria-controls="drawer-navigation"
                     className="text-gray-400  hover:bg-gray-200 hover:text-gray-900 rounded-md text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-300 dark:hover:text-white"
                     onClick={() => setMenuState(false)}
                 >
@@ -169,7 +171,14 @@ export function DesktopLayout({
             </div>
             <button
                 onClick={open}
-                disabled={location.pathname !== '/tasks' && location.pathname !== '/calendar' ? true : false}
+                disabled={
+                    location.pathname !== '/' &&
+                    location.pathname !== '/calendar' &&
+                    location.pathname !== '/all-tasks' &&
+                    location.pathname !== '/calendar'
+                        ? true
+                        : false
+                }
                 className="w-16 h-16  bg-bright-purple-100 rounded-full  right-1/2 translate-x-1/2 -translate-y-1/2 hover:bg-bright-purple-300 text-3xl lg:absolute lg:bottom-5 lg:right-20 "
             >
                 +

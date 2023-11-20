@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -76,4 +77,115 @@
     @apply p-1.5;
     @apply text-center;
     @apply overflow-y-scroll;
+}
+
+button[data-testid='flowbite-dropdown-target'] {
+    @apply dark:bg-transparent;
+    @apply enabled:hover:bg-transparent;
+    @apply enabled:hover:ring-bright-purple-100;
+    @apply focus:ring-0;
+}
+
+.rbc-month-view {
+    @apply border-gray-100;
+}
+.rbc-day-bg {
+    @apply bg-gray-200;
+}
+.rbc-day-bg + .rbc-day-bg {
+    @apply border-gray-100;
+}
+
+.rbc-off-range-bg {
+    @apply bg-gray-400;
+}
+.rbc-today {
+    @apply bg-bright-purple-100/20;
+}
+
+.rbc-btn-group > button {
+    @apply border-gray-100;
+    @apply text-category-purple-100;
+    @apply bg-gray-400;
+    @apply xl:text-xl;
+    @apply 2xl:text-2xl;
+}
+.rbc-toolbar button:active:hover,
+.rbc-toolbar button:active:focus,
+.rbc-toolbar button.rbc-active:hover,
+.rbc-toolbar button.rbc-active:focus,
+.rbc-toolbar button:active,
+.rbc-toolbar button.rbc-active,
+.rbc-toolbar button:hover {
+    @apply bg-gray-200;
+    @apply text-category-purple-100;
+}
+
+.rbc-event,
+.rbc-selected {
+    /* @apply bg-transparent; */
+    @apply p-0;
+}
+.rbc-event-label {
+    display: none;
+}
+
+.rbc-addons-dnd-resizable {
+    @apply w-full;
+}
+
+.rbc-event.rbc-selected,
+.rbc-day-slot,
+.rbc-selected,
+.rbc-background-event {
+    @apply border-2;
+    @apply bg-transparent;
+}
+
+.rbc-event:focus,
+.rbc-day-slot,
+.rbc-background-event:focus {
+    @apply outline-0;
+}
+.rbc-header {
+    @apply text-lg;
+    @apply font-thin;
+    @apply p-4;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+}
+
+.rbc-month-row {
+    @apply overflow-y-scroll;
+}
+
+.rbc-timeslot-group {
+    @apply border-gray-100;
+}
+
+.rbc-day-slot {
+    @apply border-0;
+    @apply border-none;
+}
+
+.rbc-time-content {
+    @apply border-0;
+}
+.rbc-day-slot .rbc-time-slot,
+.rbc-month-row + .rbc-month-row {
+    border-top: 0 solid #fff;
+}
+
+.rbc-time-view {
+    @apply border-gray-100;
+    @apply z-0;
+}
+.rbc-month-view {
+    @apply z-0;
+}
+.rbc-row-bg,
+.rbc-time-header-gutter {
+    @apply border-b-2;
+    @apply border-gray-100;
 }
