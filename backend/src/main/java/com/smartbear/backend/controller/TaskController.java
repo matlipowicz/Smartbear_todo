@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
+
 @RestController
 @RequestMapping
 public class TaskController {
@@ -24,6 +24,7 @@ public class TaskController {
     public List<Task> getAllTasks() {
             return taskService.getAll();
     }
+
 
     @GetMapping("/todos/{id}")
     public Task getSingleTask(@PathVariable Long id){

@@ -16,8 +16,6 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-
-
     public List<Task> getAll(){
         return taskRepository.findAll();
     }
@@ -58,9 +56,9 @@ public class TaskService {
 
         if(existingTask.isPresent()){
             taskRepository.deleteById(id);
+        }else{
+            throw new TaskNotFoundException();
         }
-        else{
-            throw new RuntimeException("User not found");
-        }
+
     }
 }
