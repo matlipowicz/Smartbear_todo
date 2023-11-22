@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { TaskModal } from './components/TaskModal/TaskModal';
 import { TaskDetails } from './components/Tasks/TaskDetails';
@@ -9,8 +10,9 @@ import { MainLayout } from './layout/MainLayout';
 import AllTasks from './pages/AllTasks/AllTasks';
 import { Calendar } from './pages/Calendar/Calendar';
 import Home from './pages/Home/Home';
-import Profile from './pages/Profile/Profile';
+import Stats from './pages/Stats/Stats';
 
+import 'react-toastify/dist/ReactToastify.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 function App() {
@@ -34,11 +36,12 @@ function App() {
                                 <Route path=":id" element={<TaskDetails />} />
                             </Route>
 
-                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/profile" element={<Stats />} />
                         </Routes>
                     </MainLayout>
                 </ModalProvider>
             </MenuProvider>
+            <ToastContainer />
         </TasksProvider>
     );
 }

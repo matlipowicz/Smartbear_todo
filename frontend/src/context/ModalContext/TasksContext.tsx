@@ -13,6 +13,7 @@ type TaskContextTypes = {
     findSingleTask: (id: number | undefined) => TaskObjTypes | undefined;
     getSingleTask: (id: number | undefined) => Promise<void>;
     setChecked: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+    setTasks: React.Dispatch<React.SetStateAction<TaskObjTypes[]>>;
     singleTask: TaskObjTypes | null;
     submitHandler: (data: TaskObjTypes) => void;
     tasks: TaskObjTypes[];
@@ -24,6 +25,7 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
     const [tasks, setTasks] = useState<TaskObjTypes[]>([]);
     const [singleTask, setSingleTask] = useState<TaskObjTypes | null>(null);
     const [checked, setChecked] = useState<boolean | undefined>(false);
+    const [erroring, setErroring] = useState<any>();
 
     //TODO: add filter by priority to some button
 
@@ -35,15 +37,15 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
 
     //* POST
     const submitHandler = async (data: TaskObjTypes) => {
-        const formatedDate = moment(data.scheduledOn, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
-        const formatedTime = moment(data.time, 'HH:mm:ss A');
+        const formatedDate = moment(data.scheduledOn, 'ddd MMM DD YYYY HH:mm:ss');
+        const formatedTime = moment(data.time, 'HH:mm:ss');
         formatedDate.set({
             h: formatedTime.hour(),
             m: formatedTime.minute(),
             s: formatedDate.second(),
         });
-        const finalTaskDate = formatedDate.format();
-
+        const finalTaskDate = formatedDate.format('YYYY-MM-DDTHH:mm:ss');
+        console.log(finalTaskDate);
         postTodo({
             task_title: data.task_title,
             description: data.description || undefined,
@@ -61,7 +63,10 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
                     .then((data) => {
                         setTasks(data);
                     })
-                    .catch((error) => console.log(error));
+                    .catch((error) => {
+                        setErroring(error);
+                        console.log(error);
+                    });
             }
         });
     };
@@ -85,7 +90,19 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
     async function editTask(id: number | undefined, data: TaskObjTypes) {
         tasks.filter((task) => {
             if (task.id === id) {
-                patchTodo({ ...task, ...data }, id).then((data) => {
+                console.log(data.finalDate);
+                patchTodo(
+                    {
+                        ...task,
+                        task_title: data?.task_title,
+                        description: data?.description,
+                        finalDate: data?.finalDate,
+                        categoryClr: data?.categoryClr,
+                        colorValue: data?.colorValue,
+                        priority: data?.priority,
+                    },
+                    id
+                ).then((data) => {
                     if (data?.status === 200) {
                         getTodos()
                             .then((data) => setTasks(data))
@@ -127,6 +144,7 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
                 singleTask,
                 editTask,
                 setTasks,
+                erroring,
             }}
         >
             {children}

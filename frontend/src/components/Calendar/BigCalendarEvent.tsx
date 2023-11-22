@@ -18,9 +18,9 @@ export const BigCalendarEventMonth = ({ event, openEventModal }: CalendarEventPr
                     onClick={openEventModal}
                     aria-hidden="true"
                 >
-                    <p className="text-xl text-gray-400 font-bold ">{event.data.title}</p>
-                    <p className="text-base text-gray-300">{event.data.description}</p>
-                    <p className="text-sm text-gray-400">{event.data.time}</p>
+                    <p className="text-sm md:text-xl text-gray-400 font-bold">{event.data.title}</p>
+                    <p className="text-xs md:text-base text-gray-300">{event.data.description}</p>
+                    <p className="text-xs md:text-sm text-gray-400">{event.data.time}</p>
                 </div>
             </>
         );

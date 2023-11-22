@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-// import DateTimePicker from 'react-datetime-picker';
-// import Datepicker from 'tailwind-datepicker-react';
-// import { DatePicker as ReactDatePicker } from 'react-date-picker';
 import Calendar from 'react-calendar';
 import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
-
-import { TaskObjTypes } from '../TaskModal/TaskModal';
+import { TaskObjTypes } from 'src/types/types';
 
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';

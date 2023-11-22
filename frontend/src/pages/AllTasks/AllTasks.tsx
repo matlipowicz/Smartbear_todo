@@ -5,6 +5,8 @@ import { TaskObjTypes } from 'src/types/types';
 
 import Component_4 from '../../../public/graphics/Component_4.svg?react';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 const AllTasks = () => {
     const { tasks, setTasks } = useTasksContext();
 
@@ -27,19 +29,22 @@ const AllTasks = () => {
         setSorting('descending');
         setTasks(sorted);
     }
+
     const displayTasks = filterPriority === undefined ? tasks : filteredAllTasks;
     if (displayTasks)
         return (
             <section className="mt-4">
                 <div className=" h-full mt-6">
                     {displayTasks.length > 0 ? (
-                        <TaskList
-                            tasks={displayTasks}
-                            setFilterPriority={setFilterPriority}
-                            sortingDescendently={sortingDescendently}
-                            sortingAscendently={sortingAscendently}
-                            sorting={sorting}
-                        />
+                        <>
+                            <TaskList
+                                tasks={displayTasks}
+                                setFilterPriority={setFilterPriority}
+                                sortingDescendently={sortingDescendently}
+                                sortingAscendently={sortingAscendently}
+                                sorting={sorting}
+                            />
+                        </>
                     ) : (
                         <div className="h-full w-full flex justify-start items-center flex-col gap-4 ">
                             <Component_4 />

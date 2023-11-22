@@ -10,9 +10,10 @@ const Home = () => {
     const [filterPriority, setFilterPriority] = useState<number | undefined>(undefined);
     const [filteredTodayTasks, setFilteredTodayTasks] = useState<TaskObjTypes[]>();
     const [sorting, setSorting] = useState<string>('ascending');
+
     useEffect(() => {
         const filteredTodayTasks = tasks?.filter((task) => {
-            const multipliedDate = (task.finalDate as number) * 1000;
+            const multipliedDate = task.finalDate;
             const today = new Date();
             const taskDate = new Date(multipliedDate);
 

@@ -31,7 +31,14 @@ export const BigCustomCalendar = ({ events, openEventModal, onSelectEvent }: { e
 
     return (
         <>
-            <DnDCalendar components={components} showAllEvents events={events} localizer={localizer} onSelectEvent={onSelectEvent} />
+            <DnDCalendar
+                components={components}
+                showAllEvents
+                events={events}
+                localizer={localizer}
+                onSelectEvent={onSelectEvent}
+                views={['month', 'week', 'day']}
+            />
         </>
     );
 };

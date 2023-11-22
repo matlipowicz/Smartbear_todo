@@ -1,4 +1,5 @@
 export default {
+    mode: 'jit',
     content: [
         './index.html',
         './src/**/*.{js,ts,jsx,tsx}',
@@ -15,6 +16,8 @@ export default {
 
                 'complete-task-green': '#77dd77',
                 'complete-task-red': '#ff6961',
+
+                'stats-green': 'rgba(75, 192, 192, 1)',
 
                 'big-calendar-task-complete-100': '#073F39',
                 'big-calendar-task-complete-200': '#0C6151',
@@ -61,11 +64,18 @@ export default {
                 timePickerInput: '4rem',
                 taskModal: '21.875rem',
                 taskEditParagraph: '6.5625rem',
+                weekView: '5.338rem',
+                doughnut: '18.125rem',
             },
             maxWidth: {
                 datePickerWidth: '28.75rem',
                 taskModal: '34rem',
                 editPage: '37.5rem',
+                doughnut: '34.375rem',
+            },
+            maxHeight: {
+                calendarMobileHeight: '50rem',
+                doughnut: '37.5rem',
             },
             fontSize: {
                 clamp: 'clamp(1rem, 5vw, 3rem)',

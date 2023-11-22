@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --toastify-color-success: rgba(75, 192, 192, 1);
+}
+
 @layer base {
     body {
         @apply bg-black-edit;
@@ -103,24 +107,6 @@ button[data-testid='flowbite-dropdown-target'] {
     @apply bg-bright-purple-100/20;
 }
 
-.rbc-btn-group > button {
-    @apply border-gray-100;
-    @apply text-category-purple-100;
-    @apply bg-gray-400;
-    @apply xl:text-xl;
-    @apply 2xl:text-2xl;
-}
-.rbc-toolbar button:active:hover,
-.rbc-toolbar button:active:focus,
-.rbc-toolbar button.rbc-active:hover,
-.rbc-toolbar button.rbc-active:focus,
-.rbc-toolbar button:active,
-.rbc-toolbar button.rbc-active,
-.rbc-toolbar button:hover {
-    @apply bg-gray-200;
-    @apply text-category-purple-100;
-}
-
 .rbc-event,
 .rbc-selected {
     /* @apply bg-transparent; */
@@ -188,4 +174,84 @@ button[data-testid='flowbite-dropdown-target'] {
 .rbc-time-header-gutter {
     @apply border-b-2;
     @apply border-gray-100;
+}
+
+.rbc-date-cell {
+    @apply text-sm;
+    @apply md:text-base;
+    @apply md:text-lg;
+}
+
+/* TOOLBAR */
+.rbc-toolbar {
+    @apply md:justify-between;
+    @apply gap-2;
+}
+.rbc-toolbar button {
+    @apply px-6;
+}
+.rbc-toolbar-label {
+    @apply mb-4;
+    @apply text-lg;
+    @apply md:text-xl;
+    @apply lg:text-2xl;
+    @apply xl:text-4xl;
+    @apply font-thin;
+    @apply w-full;
+}
+
+.rbc-btn-group {
+    @apply order-1;
+}
+
+.rbc-btn-group > button {
+    @apply border-gray-100;
+    @apply text-category-purple-100;
+    @apply bg-gray-400;
+    @apply text-base;
+    @apply xl:text-xl;
+    @apply 2xl:text-2xl;
+    @applt p-6;
+}
+.rbc-toolbar button:active:hover,
+.rbc-toolbar button:active:focus,
+.rbc-toolbar button.rbc-active:hover,
+.rbc-toolbar button.rbc-active:focus,
+.rbc-toolbar button:active,
+.rbc-toolbar button.rbc-active,
+.rbc-toolbar button:hover {
+    @apply bg-gray-200;
+    @apply text-category-purple-100;
+}
+
+/* .rbc-header
+ .rbc-row, .rbc-time-header-cell */
+
+.rbc-time-view {
+    @apply overflow-x-scroll;
+    @apply relative;
+}
+
+.rbc-time-view .rbc-row {
+    @apply w-fit;
+    @apply min-[774px]:w-full;
+}
+
+.rbc-time-header-content {
+    @apply w-full;
+}
+
+.rbc-time-view .rbc-allday-cell {
+    @apply hidden;
+}
+
+.rbc-time-content .rbc-day-slot {
+    @apply min-w-weekView;
+}
+
+.rbc-time-content {
+    @apply overflow-visible;
+}
+.rbc-time-header-content .rbc-day-bg {
+    @apply min-w-weekView;
 }

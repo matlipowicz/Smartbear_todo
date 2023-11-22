@@ -2,34 +2,25 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { deleteTodo } from 'src/api/todos';
 
-import Edit from '../../../public/icons/edit-2.svg?react';
-import TrashCan from '../../../public/icons/trash.svg?react';
+import Edit from '../../../../public/icons/edit-2.svg?react';
+import TrashCan from '../../../../public/icons/trash.svg?react';
 
-import { TaskObjTypes } from './GenericModal';
-export const EventModal = ({
-    closeEventModal,
-    eventOpen,
-    position,
-    currentEventData,
-}: {
-    closeEventModal: () => void;
-    currentEventData: TaskObjTypes;
-    eventOpen: boolean;
-    position: { left: number; top: number };
-}) => {
-    console.log(currentEventData);
+import { EventModalTypes } from './EventModal';
+export const DesktopEventModal = ({ position, currentEventData, closeEventModal }: EventModalTypes) => {
     return (
-        <div>
-            {eventOpen && currentEventData ? (
+        <>
+            {currentEventData ? (
                 <div
-                    className={`absolute bg-white rounded-lg shadow dark:bg-gray-300 max-w-lg w-full transition-all duration-500`}
+                    className={`hidden md:block absolute bg-white rounded-lg shadow dark:bg-gray-300 md:max-w-lg transition-all duration-500`}
                     style={{ top: position.top, left: position.left }}
                 >
-                    <div className="flex items-center justify-between p-4 md:p-5 ">
-                        <h3 className="text-2xl font-semibold text-gray-900 dark:text-white break-words">{currentEventData.task_title}</h3>
-                        <div className="flex gap-4 self-start">
-                            <Link to={`${currentEventData.id}`}>
-                                <Edit className="w-6 h-6 min-w-fit fill-current text-white hover:text-bright-purple-300 cursor-pointer" />
+                    <div className="  flex items-center justify-between p-4 md:p-5 ">
+                        <h3 className="text-base md:text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white break-words w-3/4">
+                            {currentEventData.task_title}
+                        </h3>
+                        <div className="flex gap-4 top-2 right-2 self-start">
+                            <Link to={`${currentEventData.id}`} className="self-center">
+                                <Edit className="w-5 h-5 md:w-6 md:h-6 min-w-fit fill-current text-white hover:text-bright-purple-300 cursor-pointer" />
                             </Link>
                             <button
                                 onClick={() => {
@@ -37,11 +28,11 @@ export const EventModal = ({
                                     deleteTodo(currentEventData.id);
                                 }}
                             >
-                                <TrashCan className="w-6 h-6 min-w-fit fill-current text-red-100 hover:text-red-600 cursor-pointer" />
+                                <TrashCan className="w-5 h-5 md:w-6 md:h-6 min-w-fit fill-current text-red-100 hover:text-red-600 cursor-pointer" />
                             </button>
                             <button
                                 type="button"
-                                className="text-bright-purple-300 hover:bg-bright-purple-300 hover:text-white rounded-md text-sm p-1.5  inline items-center dark:hover:bg-bright-purple-300 dark:hover:text-white "
+                                className="text-bright-purple-300 hover:bg-bright-purple-300 hover:text-white rounded-md text-sm p-1.5  items-center dark:hover:bg-bright-purple-300 dark:hover:text-white "
                                 onClick={closeEventModal}
                             >
                                 <svg
@@ -61,11 +52,13 @@ export const EventModal = ({
                         </div>
                     </div>
                     <div className="p-4 flex flex-col gap-6">
-                        <p className="font-extralight text-gray-100">{moment(currentEventData.finalDate).format('LLL')}</p>
-                        <p className="text-gray-100 text-lg">{currentEventData.description}</p>
+                        <p className="text-xs md:text-sm lg:text-base font-extralight text-gray-100">
+                            {moment(currentEventData.finalDate).format('LLL')}
+                        </p>
+                        <p className="text-gray-100 text-sm md:text-base lg:text-lg ">{currentEventData.description}</p>
                     </div>
                 </div>
             ) : null}
-        </div>
+        </>
     );
 };

@@ -5,6 +5,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'flowbite-react';
+import moment from 'moment';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
 
 import Flag from '../../../public/icons/flag.svg?react';
@@ -73,7 +74,7 @@ export const TaskDetails = () => {
     const navigate = useNavigate();
     const [categoryColor, setCategoryColor] = useState<string | undefined>(singleTask?.categoryClr);
     const [colorValue, setColorValue] = useState<string | undefined>(singleTask?.colorValue);
-    const [value, onChange] = useState<number | undefined | string>('');
+    const [value, onChange] = useState<string>('');
 
     const { register, handleSubmit, setValue } = useForm({
         defaultValues: { ...singleTask },
@@ -84,10 +85,8 @@ export const TaskDetails = () => {
     };
 
     useEffect(() => {
-        const multipliedDate = (singleTask?.finalDate as number) * 1000;
-
         findSingleTask(Number(id));
-        onChange(multipliedDate);
+        onChange(singleTask?.finalDate);
         setCategoryColor(singleTask?.categoryClr);
         setColorValue(singleTask?.colorValue);
     }, [findSingleTask, id, singleTask]);
@@ -97,9 +96,12 @@ export const TaskDetails = () => {
         setValue('colorValue', colorValue);
     }, [setCategoryColor, setValue, colorValue, categoryColor]);
 
+    const newDate = new Date(value);
+    const testVal = moment(newDate).format('YYYY-MM-DDTHH:mm:ss');
+
     useEffect(() => {
-        setValue('finalDate', value);
-    }, [value, setValue]);
+        setValue('finalDate', testVal);
+    }, [value, setValue, testVal]);
 
     return (
         <>

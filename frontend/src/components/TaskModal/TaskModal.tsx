@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker } from 'src/components/Calendar/DatePicker';
 import { Time } from 'src/components/Calendar/TimePicker';
@@ -68,9 +69,22 @@ export const TaskModal = () => {
     });
 
     useEffect(() => {
+        const notifySuccess = () =>
+            toast.success('Task added!', {
+                position: 'bottom-center',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored',
+            });
+
         if (isSubmitSuccessful) {
             reset();
             setFormPage(1);
+            notifySuccess();
         }
     }, [isSubmitSuccessful, reset]);
 

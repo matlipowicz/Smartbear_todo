@@ -24,7 +24,7 @@ export const DragAndDrop = ({ openEventModal, onSelectEvent }: any) => {
 
     useEffect(() => {
         const event = tasks.map((task: TaskObjTypes) => {
-            const multipliedDate = (task?.finalDate as number) * 1000;
+            const multipliedDate = task?.finalDate;
             const formattedDate = new Date(multipliedDate);
             const formatDate = moment(formattedDate).toDate();
             return {

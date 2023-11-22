@@ -26,7 +26,7 @@ export const TaskItem = ({ task }: { task: TaskObjTypes }) => {
         };
     }, [selectDropdown]);
 
-    const multipliedDate = (task?.finalDate as number) * 1000;
+    const multipliedDate = task?.finalDate;
     const formatedDate = new Date(multipliedDate).toLocaleDateString();
 
     return (
@@ -36,7 +36,7 @@ export const TaskItem = ({ task }: { task: TaskObjTypes }) => {
                     <TaskCheckbox task_title={task?.task_title} id={task?.id} isChecked={task?.done} />
 
                     <Link to={`${task?.id}`}>
-                        <div className="hover:underline hover:underline-offset-4 hover:decoration-1	hover:decoration-gray-100/60	">
+                        <div className="hover:underline hover:underline-offset-4 hover:decoration-1	hover:decoration-gray-100/60 pr-2">
                             <p className={`text-white text-xl break-words break-all w-full mb-2 ${task?.done ? 'line-through' : ''}`}>
                                 {task?.task_title}
                             </p>

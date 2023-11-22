@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { DragAndDrop, EventsType } from 'src/components/Calendar/DragAndDrop';
-import { EventModal } from 'src/components/TaskModal/EventModal';
+import { EventModal } from 'src/components/TaskModal/CalendarEvent/EventModal';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
+import { TaskObjTypes } from 'src/types/types';
 
 export const Calendar = () => {
     const { tasks } = useTasksContext();
     const [eventOpen, setEventOpen] = useState<boolean>(false);
-    const [position, setPosition] = useState<object>({ top: 0, left: 0 });
+    const [position, setPosition] = useState<{ left: number; top: number }>({ top: 0, left: 0 });
     const [calEvent, setCalEvent] = useState<EventsType | null>(null);
-    const [currentEventData, setCurrentEventData] = useState(null);
+    const [currentEventData, setCurrentEventData] = useState<TaskObjTypes | null>(null);
 
-    const onSelectEvent = useCallback((e: Event) => {
-        // clickRef.current = console.log(calEvent);
+    const onSelectEvent = useCallback((e: EventsType) => {
         setCalEvent(e);
     }, []);
 
@@ -36,9 +36,11 @@ export const Calendar = () => {
     }
     return (
         <>
-            <div className="h-full w-full p-12">
+            <div className=" h-full w-full p-2 pb-20 sm:p-6 sm:pb-8 lg:p-8 lg:pb-10 xl:p-12">
                 <DragAndDrop openEventModal={openEventModal} onSelectEvent={onSelectEvent} />
-                <EventModal closeEventModal={closeEventModal} eventOpen={eventOpen} position={position} currentEventData={currentEventData} />
+                <div className="hidder">
+                    <EventModal closeEventModal={closeEventModal} eventOpen={eventOpen} position={position} currentEventData={currentEventData} />
+                </div>
             </div>
         </>
     );
