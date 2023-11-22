@@ -25,7 +25,6 @@ public class TaskController {
             return taskService.getAll();
     }
 
-
     @GetMapping("/todos/{id}")
     public Task getSingleTask(@PathVariable Long id){
         return taskService.getTask(id);
@@ -45,5 +44,7 @@ public class TaskController {
     public void deletingTask(@PathVariable Long id){
          taskService.deleteTask(id);
     }
+
+
 
 }
