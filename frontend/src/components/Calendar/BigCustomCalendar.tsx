@@ -1,16 +1,22 @@
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
+import { CompotentsType, EventsType } from 'src/types/types';
 
 import { BigCalendarEventDay, BigCalendarEventMonth, BigCalendarEventWeek } from './BigCalendarEvent';
-import { EventsType } from './DragAndDrop';
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(BigCalendar);
 
-export const BigCustomCalendar = ({ events, openEventModal, onSelectEvent }: { events: EventsType[]; onSelectEvent: any; openEventModal: any }) => {
-    // const [eventOpen, setEventOpen] = useState<boolean>(false);
-
-    const components = {
+export const BigCustomCalendar = ({
+    events,
+    onSelectEvent,
+    openEventModal,
+}: {
+    events: EventsType[];
+    onSelectEvent: (e: React.SyntheticEvent, event: EventsType) => void;
+    openEventModal: (e: React.SyntheticEvent) => void;
+}) => {
+    const components: CompotentsType = {
         month: {
             event: ({ event }: { event: EventsType }) => {
                 return <BigCalendarEventMonth event={event} openEventModal={openEventModal} />;
@@ -32,11 +38,11 @@ export const BigCustomCalendar = ({ events, openEventModal, onSelectEvent }: { e
     return (
         <>
             <DnDCalendar
-                components={components}
+                components={components as object}
                 showAllEvents
                 events={events}
                 localizer={localizer}
-                onSelectEvent={onSelectEvent}
+                onSelectEvent={onSelectEvent as any}
                 views={['month', 'week', 'day']}
             />
         </>

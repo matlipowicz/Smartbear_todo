@@ -1,24 +1,12 @@
 import { FaSortAmountDown, FaSortAmountDownAlt } from 'react-icons/fa';
 import { Dropdown } from 'flowbite-react';
-import { TaskObjTypes } from 'src/types/types';
+import { TaskListProps, TaskObjTypes } from 'src/types/types';
 
 import Filter from '../../../public/icons/sort.svg?react';
 
 import { TaskItem } from './TaskItem';
 
-export const TaskList = ({
-    tasks,
-    setFilterPriority,
-    sortingAscendently,
-    sortingDescendently,
-    sorting,
-}: {
-    setFilterPriority: any;
-    sorting: string;
-    sortingAscendently: any;
-    sortingDescendently: any;
-    tasks: TaskObjTypes[];
-}) => {
+export const TaskList = ({ tasks, setFilterPriority, sortingAscendently, sortingDescendently, sorting }: TaskListProps) => {
     if (tasks !== null) {
         return (
             <>

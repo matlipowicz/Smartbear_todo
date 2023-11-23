@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { TimePicker } from 'react-time-picker';
 import { LooseValue } from 'react-time-picker/dist/cjs/shared/types';
-
-import { TaskObjTypes } from '../TaskModal/TaskModal';
+import { TaskObjTypes } from 'src/types/types';
 
 import 'react-time-picker/dist/TimePicker.css';
 

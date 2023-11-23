@@ -1,6 +1,5 @@
 // import logo from '../../public/icons/logo.svg';
 import React from 'react';
-import { ReactElement } from 'react';
 import { FiBarChart2 } from 'react-icons/fi';
 import { useMenuContext } from 'src/context/MenuContext/MenuContext';
 import { useModalContext } from 'src/context/ModalContext/ModalContext';
@@ -17,12 +16,7 @@ type ChildrienProps = {
     children: React.ReactNode;
 };
 
-export type RouteTypes = {
-    icon: ReactElement;
-    id: number;
-    name: string;
-    path: string;
-};
+import { RouteTypes } from 'src/types/types';
 
 export const ROUTES: RouteTypes[] = [
     {

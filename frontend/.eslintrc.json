@@ -61,8 +61,8 @@
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
         // "arrow-body-style": ["error", "as-needed"],
-        "react/self-closing-comp": ["error", { "component": true, "html": true }]
-
+        "react/self-closing-comp": ["error", { "component": true, "html": true }],
+        "@typescript-eslint/no-explicit-any": "off"
         // "no-console": "error"
     },
 

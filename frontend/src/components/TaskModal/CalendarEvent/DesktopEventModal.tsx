@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { deleteTodo } from 'src/api/todos';
+import { EventModalTypes } from 'src/types/types';
 
 import Edit from '../../../../public/icons/edit-2.svg?react';
 import TrashCan from '../../../../public/icons/trash.svg?react';
 
-import { EventModalTypes } from './EventModal';
 export const DesktopEventModal = ({ position, currentEventData, closeEventModal }: EventModalTypes) => {
     return (
         <>

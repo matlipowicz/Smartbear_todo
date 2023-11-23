@@ -31,7 +31,10 @@ const Stats = () => {
                 <>
                     <p className="text-center text-stats-green text-4xl">{todayDoneTasksPercent}%</p>
                     <p className="flex flex-col text-center text-stats-green font-thin text-2xl">
-                        tasks completed <span className="text-lg text-stats-green font-bold">Good Job!</span>
+                        tasks completed{' '}
+                        <span className="text-lg text-stats-green font-bold">
+                            {todayDoneTasksPercent <= 30 ? 'Not much has been done today' : 'Good Job!'}
+                        </span>
                     </p>
                     <Doughnut data={todayData} options={options} className="min-w-doughnut max-w-doughnut max-h-doughnut " />
                 </>
@@ -39,7 +42,10 @@ const Stats = () => {
                 <>
                     <p className="text-center text-stats-green text-4xl">{weekDoneTasksPercent}%</p>
                     <p className="flex flex-col text-center text-stats-green font-thin text-2xl">
-                        tasks completed <span className="text-lg text-stats-green font-bold">Good Job!</span>
+                        tasks completed{' '}
+                        <span className="text-lg text-stats-green font-bold">
+                            {weekDoneTasksPercent <= 30 ? 'Not much has been done in this week' : 'Good Job!'}
+                        </span>
                     </p>
                     <Doughnut data={weekData} options={options} className="min-w-doughnut max-w-doughnut max-h-doughnut " />
                 </>

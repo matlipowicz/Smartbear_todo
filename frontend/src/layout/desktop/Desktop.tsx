@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
+import { CategoryType } from 'src/types/types';
+import { RouteTypes } from 'src/types/types';
 
 import { ROUTES } from '../MainLayout';
-import { RouteTypes } from '../MainLayout';
 
-export type CategoryType = { category: string; color: string };
 export function DesktopLayout({
     menuState,
     setMenuState,
@@ -19,14 +19,16 @@ export function DesktopLayout({
     const [category, setCategory] = useState<CategoryType[]>([]);
 
     useEffect(() => {
-        const colorValueSet = new Set();
+        const colorValueSet: Set<CategoryType> = new Set();
         tasks.forEach((task) => {
             if (task.colorValue) {
                 colorValueSet.add({ category: task.colorValue, color: task.categoryClr });
             }
         });
-
-        setCategory(Array.from(colorValueSet) as CategoryType[]);
+        const testArr = Array.from(colorValueSet).filter(
+            (element, index, arr) => arr.findIndex((selfElement) => selfElement.category === element.category) === index
+        );
+        setCategory(testArr);
     }, [tasks]);
 
     return (

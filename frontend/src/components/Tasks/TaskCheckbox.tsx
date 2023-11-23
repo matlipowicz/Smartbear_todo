@@ -1,15 +1,8 @@
 import { BiCheck } from 'react-icons/bi';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
+import { TaskCheckboxProps } from 'src/types/types';
 
-export const TaskCheckbox = ({
-    task_title,
-    id,
-    isChecked,
-}: {
-    id: number | undefined;
-    isChecked: boolean | undefined;
-    task_title: string | undefined;
-}) => {
+export const TaskCheckbox = ({ task_title, id, isChecked }: TaskCheckboxProps) => {
     const { getSingleTask } = useTasksContext();
 
     if (id)

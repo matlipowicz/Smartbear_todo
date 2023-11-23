@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'flowbite-react';
 import moment from 'moment';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
+import { TaskObjTypes } from 'src/types/types';
 
 import Flag from '../../../public/icons/flag.svg?react';
 import Tag from '../../../public/icons/tag.svg?react';
@@ -63,11 +64,6 @@ const CATEGORIES = [
     },
 ];
 
-export type CategoriesType = {
-    categoryClr: string | undefined;
-    value: string | undefined;
-};
-
 export const TaskDetails = () => {
     const { id } = useParams();
     const { deleteTask, findSingleTask, singleTask, editTask } = useTasksContext();
@@ -86,7 +82,7 @@ export const TaskDetails = () => {
 
     useEffect(() => {
         findSingleTask(Number(id));
-        onChange(singleTask?.finalDate);
+        onChange(singleTask?.finalDate as string);
         setCategoryColor(singleTask?.categoryClr);
         setColorValue(singleTask?.colorValue);
     }, [findSingleTask, id, singleTask]);
@@ -110,7 +106,7 @@ export const TaskDetails = () => {
                     <button onClick={() => navigate(-1)}>
                         <IoIosArrowBack className="text-2xl hover:fill-bright-purple-100 focus:fill-bright-purple-300" />
                     </button>
-                    <form onSubmit={handleSubmit((data) => editTask(singleTask.id, data))} className="">
+                    <form onSubmit={handleSubmit((data) => editTask(singleTask.id, data as TaskObjTypes))}>
                         <div>
                             <div className="flex gap-4 mb-4 items-center">
                                 <TaskCheckbox task_title={singleTask.task_title} id={singleTask.id} isChecked={singleTask.done} />
@@ -146,7 +142,7 @@ export const TaskDetails = () => {
                                     </div>
 
                                     <DateTimePicker
-                                        onChange={onChange}
+                                        onChange={onChange as any}
                                         value={value}
                                         disableClock
                                         clearIcon={null}

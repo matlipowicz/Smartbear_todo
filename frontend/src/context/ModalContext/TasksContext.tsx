@@ -4,20 +4,8 @@ import { getTodos } from 'src/api/todos';
 import { postTodo } from 'src/api/todos';
 import { patchTodo } from 'src/api/todos';
 import { deleteTodo } from 'src/api/todos';
+import { TaskContextTypes } from 'src/types/context';
 import { TaskObjTypes } from 'src/types/types';
-
-type TaskContextTypes = {
-    checked: boolean | undefined;
-    deleteTask(id: number | undefined): Promise<void>;
-    editTask: (id: number | undefined, data: TaskObjTypes) => Promise<void>;
-    findSingleTask: (id: number | undefined) => TaskObjTypes | undefined;
-    getSingleTask: (id: number | undefined) => Promise<void>;
-    setChecked: React.Dispatch<React.SetStateAction<boolean | undefined>>;
-    setTasks: React.Dispatch<React.SetStateAction<TaskObjTypes[]>>;
-    singleTask: TaskObjTypes | null;
-    submitHandler: (data: TaskObjTypes) => void;
-    tasks: TaskObjTypes[];
-};
 
 export const TasksContext = createContext<TaskContextTypes | null>(null);
 
@@ -25,9 +13,6 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
     const [tasks, setTasks] = useState<TaskObjTypes[]>([]);
     const [singleTask, setSingleTask] = useState<TaskObjTypes | null>(null);
     const [checked, setChecked] = useState<boolean | undefined>(false);
-    const [erroring, setErroring] = useState<any>();
-
-    //TODO: add filter by priority to some button
 
     useEffect(() => {
         getTodos()
@@ -64,7 +49,6 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
                         setTasks(data);
                     })
                     .catch((error) => {
-                        setErroring(error);
                         console.log(error);
                     });
             }
@@ -144,7 +128,6 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
                 singleTask,
                 editTask,
                 setTasks,
-                erroring,
             }}
         >
             {children}

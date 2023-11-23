@@ -16,11 +16,6 @@ import Timer from '../../../public/icons/timer.svg?react';
 import { GenericModal } from './GenericModal';
 import { TaskTitle } from './TaskTitle';
 
-// function getWindowSize() {
-//     const { innerWidth } = window;
-//     return innerWidth;
-// }
-
 export const TaskModal = () => {
     const [formPage, setFormPage] = useState<number>(1);
     const { submitHandler } = useTasksContext();

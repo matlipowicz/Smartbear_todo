@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import React from 'react';
-
-type MenuTypes = { openMenu: boolean; setOpenMenu: React.Dispatch<React.SetStateAction<boolean>> };
+import { MenuTypes } from 'src/types/context';
 
 export const MenuContext = createContext<MenuTypes | null>(null);
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {

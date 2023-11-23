@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { TaskObjTypes } from 'src/types/types';
 
+const BASE_URL = 'http://localhost:8080/todos';
+
 export const getTodos = async () => {
     try {
-        const { data } = await axios.get('http://localhost:8080/todos');
+        const { data } = await axios.get(`${BASE_URL}`);
         return data;
     } catch (error) {
         console.log(error);
     }
 };
 
-//TODO: On the backend return response in body containing POSTED data
-
 export const postTodo = async (todoData: TaskObjTypes) => {
     try {
-        const postedData = await axios.post('http://localhost:8080/todos', todoData);
+        const postedData = await axios.post(`${BASE_URL}`, todoData);
         return postedData;
     } catch (error) {
         console.log('POST status', error);
@@ -23,7 +23,7 @@ export const postTodo = async (todoData: TaskObjTypes) => {
 
 export const patchTodo = async (todoData: Partial<TaskObjTypes>, id: number | undefined) => {
     try {
-        const patchedData = await axios.patch(`http://localhost:8080/todos/${id}`, todoData);
+        const patchedData = await axios.patch(`${BASE_URL}/${id}`, todoData);
 
         return patchedData;
     } catch (error) {
@@ -33,7 +33,7 @@ export const patchTodo = async (todoData: Partial<TaskObjTypes>, id: number | un
 
 export const deleteTodo = async (id: number | undefined) => {
     try {
-        const deletedData = await axios.delete(`http://localhost:8080/todos/${id}`);
+        const deletedData = await axios.delete(`${BASE_URL}/${id}`);
         return deletedData;
     } catch (error) {
         console.log('Error:', error);

@@ -1,24 +1,10 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useTasksContext } from 'src/context/ModalContext/TasksContext';
-import { TaskObjTypes } from 'src/types/types';
+import { CustomCalendarTypes, EventsType, TaskObjTypes } from 'src/types/types';
 
 import { BigCustomCalendar } from './BigCustomCalendar';
-
-type DataType = {
-    description: string;
-    done: boolean;
-    id: number;
-    time: string;
-    title: string;
-};
-export type EventsType = {
-    data: DataType;
-    end: Date;
-    start: Date;
-};
-
-export const DragAndDrop = ({ openEventModal, onSelectEvent }: any) => {
+export const DragAndDrop = ({ openEventModal, onSelectEvent }: Partial<CustomCalendarTypes>) => {
     const { tasks } = useTasksContext();
     const [events, setEvents] = useState<EventsType[]>([]);
 
@@ -42,5 +28,5 @@ export const DragAndDrop = ({ openEventModal, onSelectEvent }: any) => {
         setEvents(event);
     }, [tasks]);
 
-    return <BigCustomCalendar events={events} openEventModal={openEventModal} onSelectEvent={onSelectEvent} />;
+    return <BigCustomCalendar events={events} openEventModal={openEventModal!} onSelectEvent={onSelectEvent as any} />;
 };

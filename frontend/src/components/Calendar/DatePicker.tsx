@@ -2,14 +2,11 @@ import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { TaskObjTypes } from 'src/types/types';
+import { Value } from 'src/types/types';
 
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
-
-type ValuePiece = Date | null;
-
-type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export const DatePicker = ({
     register,
@@ -31,7 +28,6 @@ export const DatePicker = ({
             <Calendar onChange={onChange} value={value} />
 
             {errors?.scheduledOn && <p className="text-red-100 text-sm">{errors?.scheduledOn?.message} &uarr;</p>}
-            {/* <DateTimePicker onChange={onChange} value={value} /> */}
         </>
     );
 };

@@ -1,14 +1,8 @@
-import { TaskObjTypes } from 'src/types/types';
+import { EventModalTypes } from 'src/types/types';
 
 import { DesktopEventModal } from './DesktopEventModal';
 import { MobileEventModal } from './MobileEventModal';
 
-export type EventModalTypes = {
-    closeEventModal: () => void;
-    currentEventData: TaskObjTypes | null;
-    eventOpen: boolean;
-    position: { left: number; top: number };
-};
 export const EventModal = ({ closeEventModal, eventOpen, position, currentEventData }: EventModalTypes) => {
     console.log(currentEventData);
     return (

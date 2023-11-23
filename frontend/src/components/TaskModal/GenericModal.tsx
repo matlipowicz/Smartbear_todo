@@ -4,18 +4,6 @@ import { useMenuContext } from 'src/context/MenuContext/MenuContext';
 import { useModalContext } from 'src/context/ModalContext/ModalContext';
 import { useOutsideClick } from 'src/hooks/useOutsideClick';
 
-export type TaskObjTypes = {
-    createdOn?: number;
-    description?: string | undefined;
-    done: boolean;
-    finalDate: string;
-    id: number;
-    priority: number;
-    scheduledOn: string;
-    task_title: string;
-    time: string;
-};
-
 function getWindowSize() {
     const { innerWidth } = window;
     return innerWidth;
