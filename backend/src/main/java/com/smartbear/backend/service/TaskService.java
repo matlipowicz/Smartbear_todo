@@ -20,12 +20,12 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Task getTask(Long id){
-        return taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
+    public Optional<Task> getTask(Long id){
+        return taskRepository.findById(id);
     }
 
     public Task postTask(Task task){
-        return taskRepository.save(task);
+            return taskRepository.save(task);
     }
 
     public Task patchTask(Long id, Task task){

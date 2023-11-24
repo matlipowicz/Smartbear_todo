@@ -1,33 +1,28 @@
 package com.smartbear.backend.service;
 
-import com.smartbear.backend.config.JavaMailSender;
 import com.smartbear.backend.model.Task;
 import com.smartbear.backend.repository.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.smartbear.backend.service.impl.EmailSenderServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
+
 
 @Service
-public class EmailSchedulerService {
+public class TodoEmailSchedulerService {
 
 
     public TaskRepository taskRepository;
 
 
-    private final EmailService emailService;
+    private final EmailSenderServiceImpl emailSenderServiceImpl;
 
 
-    public EmailSchedulerService(TaskRepository taskRepository, EmailService emailService) {
+    public TodoEmailSchedulerService(TaskRepository taskRepository, EmailSenderServiceImpl emailSenderServiceImpl) {
         this.taskRepository = taskRepository;
-        this.emailService = emailService;
+        this.emailSenderServiceImpl = emailSenderServiceImpl;
     }
 
     public List<Task> getAllTasks(){
@@ -41,7 +36,7 @@ public class EmailSchedulerService {
         for(Task task: tasks){
             if(!task.getDone()){
                 LocalDate todayTaskDate = task.getFinalDate().toLocalDate();
-                if(todayDate.equals(todayTaskDate)){
+                if (todayDate.equals(todayTaskDate)){
                     testList.add(task);
                 }
             }
@@ -50,7 +45,7 @@ public class EmailSchedulerService {
         return testList;
     }
 
-    @Scheduled(cron = "0 0 21 * * ?")
+    @Scheduled(cron = "0 0 9 * * ?")
     public void sendNotification(){
         var tasks = getAllTasks();
         var tasksSize = tasks.size();
@@ -59,9 +54,10 @@ public class EmailSchedulerService {
         var subject = "Pending tasks in KapibaraDo app";
 
         try{
-            emailService.sendEmail(toReceiver,subject,message);
+            emailSenderServiceImpl.sendEmail(toReceiver,subject,message);
         }catch(Exception e){
             e.printStackTrace();
+            System.out.println("Email sent successfully");
         }
     }
 
